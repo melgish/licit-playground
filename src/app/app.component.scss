@@ -26,8 +26,9 @@
   width: 25%;
   float: left;
   background-color: #ccc;
-  text-align: center;
-  font-size: 40px;
+  > div {
+    padding: .5rem 0.25rem 0.25rem;
+  }
 }
 
 .right {
@@ -51,5 +52,11 @@
   margin: 4px;
 }
 
-
-
+button {
+  padding: .5rem;
+  border-radius: 0.25rem;
+  border: 1px solid green;
+  &:not(:first-child) {
+    margin-left: 0.25rem;
+  }
+}

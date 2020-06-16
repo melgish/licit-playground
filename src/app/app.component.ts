@@ -8,5 +8,13 @@ import { Component } from '@angular/core';
   ]
 })
 export class AppComponent {
-  editorValue = null;
+  visible = true;
+
+  disabled = false;
+
+  content = null;
+
+  width = '';
+
+  height = '';
 }

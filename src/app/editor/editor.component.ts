@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, OnDestroy, OnChanges, forwardRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy, OnChanges, forwardRef, Input, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 
@@ -29,15 +29,23 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
    */
   private onTouched: () => void = noop;
   //#endregion
-
+  /**
+   * Current content of the editor
+   */
   private content: any = null;
-
+  /**
+   * True when editor is disabled
+   */
   private isDisabled = false;
-
   /**
    * Contains the editor
    */
   private readonly div: HTMLElement = this.el.nativeElement;
+
+  @Input() width: string = '';
+
+  @Input() height: string = '';
+
   /**
    * Instances get constructed by angular
    * @param el Host element provided by angular
@@ -56,16 +64,33 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
       // When true, enables some debugging features in editor.
       debug: false,
 
+      // Callback raised when editor contents have changed.
+      onChange: (state, transaction) => {
+        // From what I can tell, state.doc = before the change;
+        // And transaction.doc = after the change.
+
+        // Need to capture / transform this value...
+        this.onChange(transaction.doc);
+      },
+      // Should set value
+      data: this.content,
+
+
+      // Set to true to make editor read only.
+      readOnly: this.isDisabled,
+      // Set width of editor 100%, 5in, 200px etc.
+      width: this.width,
+      // Set height of editor 100%, 5in, 200px etc.
+      height: this.height,
+
       // Outstanding questions:
-      // What goes here to make editor read-only?
-      // What goes here to make editor show 'Hello World' on startup?
-      // What goes here to receive change notifications from editor?
-      // What goes here to change size of editor?
+      // What goes here to make editor show content on startup?
       // What goes here to enable / disable toolbar buttons?
       // What goes here to add additional plugins?
       // What goes here to disable existing plugins?
       // What events go here to manage uploads?
-    });
+    } as any);
+
     ReactDOM.render(reactEl, this.div);
   }
 
@@ -73,13 +98,15 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
   /**
    * Called by angular when any Input() is changed.
    */
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes);
     this.render();
   }
   /**
    * Called by angular to clean up component.
    */
   ngOnDestroy() {
+    console.log('ngOnDestroy');
     // Clean up the react stuff
     ReactDOM.unmountComponentAtNode(this.div);
   }
@@ -88,6 +115,7 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
    * Called by angular when component is initialized.
    */
   ngOnInit(): void {
+    console.log('ngOnInit');
     this.render();
   }
   //#endregion
@@ -98,7 +126,7 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
    * @param content
    */
   writeValue(content: any): void {
-    // TODO: load content into editor and re-render.
+    console.log('writeValue', content);
     this.content = content;
     this.render();
   }
@@ -121,6 +149,7 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
    * @param isDisabled
    */
   setDisabledState(isDisabled: boolean): void {
+    console.log('setDisabledState', isDisabled);
     this.isDisabled = isDisabled;
     this.render();
   }

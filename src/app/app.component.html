@@ -1,9 +1,30 @@
 <div class="navbar">NAVBAR</div>
-<div class="left">SIDEBAR</div>
+<div class="left">
+  <div>SIDEBAR</div>
+  <div>
+    <button (click)="visible = !visible">Toggle Visibility</button>
+    <button (click)="disabled = !disabled">Toggle Disabled</button>
+  </div>
+  <div>
+    <input placeholder="width" [(ngModel)]="width">
+    <input placeholder="height" [(ngModel)]="height">
+  </div>
+  <div>
+    <pre>{{ content | json }}</pre>
+  </div>
+
+</div>
 <div class="right">
-  <div class="wrapper">
+  <div class="wrapper" >
     <div class="title">TITLE</div>
-    <maw-editor class="editor" [(ngModel)]="editorValue"></maw-editor>
+    <maw-editor
+      *ngIf="visible"
+      class="editor"
+      [(ngModel)]="content"
+      [disabled]="disabled"
+      [width]="width"
+      [height]="height"
+    ></maw-editor>
   </div>
 </div>
 <div class="navbar">FOOTER</div>
