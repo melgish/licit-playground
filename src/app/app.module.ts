@@ -1,7 +1,7 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
-import { EditorComponent } from "./editor/editor.component";
+import { EditorComponent } from "./editor-licit/editor.component";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({

@@ -1,21 +1,20 @@
-<div class="navbar">NAVBAR</div>
-<div class="left">
-  <div>SIDEBAR</div>
-  <div>
-    <button (click)="visible = !visible">Toggle Visibility</button>
-    <button (click)="disabled = !disabled">Toggle Disabled</button>
-  </div>
-  <div>
-    <input placeholder="width" [(ngModel)]="width">
-    <input placeholder="height" [(ngModel)]="height">
-  </div>
-  <div>
+<nav>NAVBAR</nav>
+<main>
+  <aside>
+    <div>
+      <button (click)="visible = !visible">Visibility</button>
+      <button (click)="disabled = !disabled">Disabled</button>
+      <button (click)="readOnly = !readOnly">ReadOnly</button>
+      <button (click)="hello()">Hello World</button>
+      <button (click)="content = null">Clear</button>
+    </div>
+    <div>
+      <input placeholder="width" [(ngModel)]="width" />
+      <input placeholder="height" [(ngModel)]="height" />
+    </div>
     <pre>{{ content | json }}</pre>
-  </div>
-
-</div>
-<div class="right">
-  <div class="wrapper" >
+  </aside>
+  <article>
     <div class="title">TITLE</div>
     <maw-editor
       *ngIf="visible"
@@ -24,7 +23,8 @@
       [disabled]="disabled"
       [width]="width"
       [height]="height"
+      [readOnly]="readOnly"
     ></maw-editor>
-  </div>
-</div>
-<div class="navbar">FOOTER</div>
+  </article>
+</main>
+<footer>FOOTER</footer>

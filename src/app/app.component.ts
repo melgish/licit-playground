@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HELLO_WORLD } from './hello-world';
+import { cloneDeep } from 'lodash';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,15 @@ export class AppComponent {
 
   disabled = false;
 
-  content = null;
+  content: any = null;
 
   width = '';
 
   height = '';
+
+  readOnly = false;
+
+  hello() {
+    this.content = cloneDeep(HELLO_WORLD);
+  }
 }
