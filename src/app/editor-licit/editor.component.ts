@@ -131,8 +131,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * @param data.state Editor state before update
    * @param data.transaction Editor state after update
    */
-  private onEditorChange(state: EditorState, transaction: Transform): void {
-    this.onChange(transaction.doc.toJSON());
+  private onEditorChange(content: unknown): void {
+    this.onChange(content);
     this.onTouched();
   }
   /**
