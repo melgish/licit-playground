@@ -1,15 +1,15 @@
 <nav>NAVBAR</nav>
 <main>
   <aside>
-    <div>
-      <button (click)="visible = !visible">Visibility</button>
-      <button (click)="disabled = !disabled">Disabled</button>
-      <button (click)="readOnly = !readOnly">ReadOnly</button>
-      <button (click)="hello()">Hello World</button>
-      <button (click)="fonts()">Fonts</button>
-      <button (click)="save()">Save&hellip;</button>
-      <button (click)="file.click()">Load&hellip;</button>
-      <button (click)="content = null">Clear</button>
+    <div class="buttons">
+      <app-toggle [(ngModel)]="visible">Visibility</app-toggle>
+      <app-toggle [(ngModel)]="disabled">Disabled</app-toggle>
+      <app-toggle [(ngModel)]="readOnly">Read Only</app-toggle>
+      <button type="button" (click)="hello()">Hello World</button>
+      <button type="button" (click)="fonts()">Fonts</button>
+      <button type="button" (click)="save()">Save&hellip;</button>
+      <button type="button" (click)="file.click()">Load&hellip;</button>
+      <button type="button" (click)="content = null">Clear</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
@@ -18,7 +18,9 @@
         #file
         type="file"
         accept=".json"
-        (change)="load($event.target.files)" style="display:none">
+        (change)="load($event.target.files)"
+        style="display: none;"
+      />
     </div>
     <pre>{{ content | json }}</pre>
   </aside>

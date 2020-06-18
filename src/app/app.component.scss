@@ -46,14 +46,20 @@ article {
   padding: 6px 0;
 }
 
+.buttons > :not(:first-child) {
+  margin-left: 0.25rem;
+}
+
 button {
   padding: .25rem .5rem;
   border-radius: 0.25rem;
   border: 1px solid green;
   margin-top: 0.125rem;
-  &:not(:first-child) {
-    margin-left: 0.125rem;
-  }
+}
+
+.on button {
+  background-color: forestgreen;
+  color: white;
 }
 
 pre {
@@ -62,3 +68,5 @@ pre {
   overflow: auto;
   max-height: 75vh;
 }
+
+
