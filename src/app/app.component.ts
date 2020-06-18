@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from "@angular/core";
+import { Component } from "@angular/core";
 import { cloneDeep } from "lodash";
 import { saveAs } from "file-saver";
 
@@ -6,7 +6,6 @@ import HELLO_WORLD from "./docs/hello-world.json";
 import FONT_TEST from "./docs/font-test.json";
 
 @Component({
-  encapsulation: ViewEncapsulation.None,
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],

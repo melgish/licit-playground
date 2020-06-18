@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef, HostBinding, HostListener, ViewEncapsulation } from '@angular/core';
+import { Component, forwardRef, ViewEncapsulation, HostBinding, HostListener } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
 
@@ -51,6 +51,7 @@ export class ToggleComponent implements ControlValueAccessor {
   /**
    * Event handler fired when button is clicked.
    */
+  @HostListener('click')
   click() {
     this.value = !this.value;
     this.onChange(this.value);
