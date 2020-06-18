@@ -5,11 +5,11 @@
       <app-toggle [(ngModel)]="visible">Visibility</app-toggle>
       <app-toggle [(ngModel)]="disabled">Disabled</app-toggle>
       <app-toggle [(ngModel)]="readOnly">Read Only</app-toggle>
-      <button type="button" (click)="hello()">Hello World</button>
-      <button type="button" (click)="fonts()">Fonts</button>
+      <button type="button" (click)="clear()">Clear</button>
       <button type="button" (click)="save()">Save&hellip;</button>
       <button type="button" (click)="file.click()">Load&hellip;</button>
-      <button type="button" (click)="content = null">Clear</button>
+      <button type="button" (click)="hello()">Hello World</button>
+      <button type="button" (click)="fonts()">Fonts</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
@@ -29,7 +29,8 @@
     <maw-editor
       *ngIf="visible"
       class="editor"
-      [(ngModel)]="content"
+      [ngModel]="content"
+      (ngModelChange)="store($event)"
       [disabled]="disabled"
       [width]="width"
       [height]="height"
