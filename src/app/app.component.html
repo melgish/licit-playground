@@ -6,11 +6,19 @@
       <button (click)="disabled = !disabled">Disabled</button>
       <button (click)="readOnly = !readOnly">ReadOnly</button>
       <button (click)="hello()">Hello World</button>
+      <button (click)="fonts()">Fonts</button>
+      <button (click)="save()">Save&hellip;</button>
+      <button (click)="file.click()">Load&hellip;</button>
       <button (click)="content = null">Clear</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
       <input placeholder="height" [(ngModel)]="height" />
+      <input
+        #file
+        type="file"
+        accept=".json"
+        (change)="load($event.target.files)" style="display:none">
     </div>
     <pre>{{ content | json }}</pre>
   </aside>

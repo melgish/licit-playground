@@ -1,8 +1,4 @@
-
-/**
- * Sample document
- */
-export const HELLO_WORLD = {
+{
   "type": "doc",
   "attrs": {
     "layout": null,
@@ -91,4 +87,4 @@ export const HELLO_WORLD = {
       ]
     }
   ]
-};
+}
