@@ -189,6 +189,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * @param prop Map of one or more properties to assign.
    */
   private update(prop: {}): {} {
+    console.log('update', prop);
     return Object.assign(this.props, prop);
   }
 
