@@ -174,8 +174,6 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     if (!this.licit) {
       // Create new react element with current properties.
       const el = React.createElement(Licit, this.props);
-      // Unmount was necessary to trigger update.
-      ReactDOM.unmountComponentAtNode(this.div);
       // Fill content with new component.
       ReactDOM.render(el, this.div);
     } else {
