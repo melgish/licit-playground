@@ -6,27 +6,27 @@ import {
   forwardRef,
   Input,
   SimpleChanges,
-} from "@angular/core";
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { noop } from "rxjs";
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { noop } from 'rxjs';
 
 // React stuff
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 
-import { Transform } from "prosemirror-transform";
-import { EditorView } from "prosemirror-view";
+import { Transform } from 'prosemirror-transform';
+import { EditorView } from 'prosemirror-view';
 
-import RichTextEditor from "licit/dist/ui/RichTextEditor";
-import LicitRuntime from "licit/dist/client/LicitRuntime";
-import { convertFromJSON } from "licit";
+import RichTextEditor from 'licit/dist/ui/RichTextEditor';
+import LicitRuntime from 'licit/dist/client/LicitRuntime';
+import { convertFromJSON } from 'licit';
 
 const FILL = '100%';
 
 @Component({
-  selector: "maw-editor",
-  template: "",
-  styleUrls: ["./editor.component.scss"],
+  selector: 'maw-editor',
+  template: '',
+  styleUrls: ['./editor.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -35,8 +35,7 @@ const FILL = '100%';
     },
   ],
 })
-export class EditorComponent
-  implements OnChanges, OnDestroy, ControlValueAccessor {
+export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccessor {
   //#region ControlValueAccessor
   /**
    * Stores angular supplied change notifier.
@@ -123,7 +122,7 @@ export class EditorComponent
    * Called by angular to clean up component.
    */
   ngOnDestroy() {
-    console.log("ngOnDestroy");
+    console.log('ngOnDestroy');
     // Clean up the react stuff
     ReactDOM.unmountComponentAtNode(this.div);
   }
@@ -145,7 +144,7 @@ export class EditorComponent
    * @param editorView editor instance
    */
   private onEditorReady(editorView: EditorView): void {
-    console.log("onEditorReady", editorView);
+    console.log('onEditorReady', editorView);
   }
   /**
    * Renders the react component
@@ -174,7 +173,7 @@ export class EditorComponent
    * @param fn angular supplied method.
    */
   registerOnChange(fn: any): void {
-    console.log("registerOnChange");
+    console.log('registerOnChange');
     this.onChange = fn;
   }
   /**
@@ -183,7 +182,7 @@ export class EditorComponent
    * @param fn angular supplied method.
    */
   registerOnTouched(fn: any): void {
-    console.log("registerOnTouched");
+    console.log('registerOnTouched');
     this.onTouched = fn;
   }
   /**
@@ -192,7 +191,7 @@ export class EditorComponent
    * @param disabled true when c ontrol should be disabled.
    */
   setDisabledState(disabled: boolean): void {
-    console.log("setDisabledState", disabled);
+    console.log('setDisabledState', disabled);
     this.update({ disabled });
     this.render();
   }
@@ -202,7 +201,7 @@ export class EditorComponent
    * @param content
    */
   writeValue(content: any): void {
-    console.log("writeValue", content);
+    console.log('writeValue', content);
     if (content) {
       // build new editor state from content
       this.props.editorState = convertFromJSON(content);
