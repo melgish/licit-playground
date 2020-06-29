@@ -99,8 +99,6 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     this.onTouched = noop;
     // Initial Licit properties.
     this.props = {
-      // Enables/Disables collaboration.
-      collaborative: false,
       // Document used to intialize editor
       data: null,
       // When true, enables some debugging features in editor.
@@ -108,7 +106,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       // Disables the control.
       disabled: false,
       // When collaboration is enabled, identifies server session.
-      docID: 1,
+      docID: 0,
       // The height of the editor.
       height: FILL,
       // Called by editor when a change happens.

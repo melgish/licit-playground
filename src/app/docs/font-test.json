@@ -1,7 +1,7 @@
 {
   "type": "doc",
   "attrs": {
-    "layout": null,
+    "layout": "us_letter_portrait",
     "padding": null,
     "width": null
   },
@@ -29,6 +29,102 @@
             }
           ],
           "text": "AbCd Arial"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-size",
+              "attrs": {
+                "pt": 36
+              }
+            },
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Aclonica"
+              }
+            }
+          ],
+          "text": "AbCd Aclonica"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-size",
+              "attrs": {
+                "pt": 36
+              }
+            },
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Acme"
+              }
+            }
+          ],
+          "text": "AbCd Acme"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-size",
+              "attrs": {
+                "pt": 36
+              }
+            },
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Alegreya"
+              }
+            }
+          ],
+          "text": "AbCd Alegrea"
         }
       ]
     },
