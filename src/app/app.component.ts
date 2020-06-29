@@ -1,14 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { cloneDeep } from "lodash";
-import { saveAs } from "file-saver";
+import { Component, OnInit } from '@angular/core';
+import { cloneDeep } from 'lodash';
+import { saveAs } from 'file-saver';
 
-import HELLO_WORLD from "./docs/hello-world.json";
-import FONT_TEST from "./docs/font-test.json";
+import HELLO_WORLD from './docs/hello-world.json';
+import FONT_TEST from './docs/font-test.json';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   visible = true;
@@ -17,9 +17,9 @@ export class AppComponent implements OnInit {
 
   content: any = null;
 
-  width = "";
+  width = '';
 
-  height = "";
+  height = '';
 
   readOnly = false;
 
@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
 
   /**
    * Update local content and session storage.
-   * @param content
+   * @param content content instance to store
    */
   store(content) {
     this.content = content;
@@ -75,7 +75,6 @@ export class AppComponent implements OnInit {
    */
   fonts() {
     this.store(cloneDeep(FONT_TEST));
-
   }
 
   /**
@@ -83,8 +82,8 @@ export class AppComponent implements OnInit {
    */
   save() {
     const json = JSON.stringify(this.content, null, 2);
-    const blob = new Blob([json], { type: "application/json" });
-    saveAs(blob, "content.json");
+    const blob = new Blob([json], { type: 'application/json' });
+    saveAs(blob, 'content.json');
   }
 
   /**
@@ -98,13 +97,13 @@ export class AppComponent implements OnInit {
         try {
           resolve(JSON.parse(event.target.result as string));
         } catch {
-          reject(new Error("Unable to parse file"));
+          reject(new Error('Unable to parse file'));
         }
       };
       reader.onerror = () => {
-        reject(new Error("Error reading file"));
+        reject(new Error('Error reading file'));
       };
-      reader.readAsText(file, "utf-8");
+      reader.readAsText(file, 'utf-8');
     });
   }
 
