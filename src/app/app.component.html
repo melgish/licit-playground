@@ -1,6 +1,7 @@
 <nav>NAVBAR</nav>
 <main>
   <aside>
+    <div>Using: {{ using }}</div>
     <div class="buttons">
       <app-toggle [(ngModel)]="visible">Visibility</app-toggle>
       <app-toggle [(ngModel)]="disabled">Disabled</app-toggle>
@@ -10,6 +11,7 @@
       <button type="button" (click)="file.click()">Load&hellip;</button>
       <button type="button" (click)="hello()">Hello World</button>
       <button type="button" (click)="fonts()">Fonts</button>
+      <button type="button" (click)="token()">Keycloak Test</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
@@ -26,7 +28,7 @@
   </aside>
   <article>
     <div class="title">TITLE</div>
-    <maw-editor
+    <maw-editor #editor
       *ngIf="visible"
       class="editor"
       [ngModel]="content"

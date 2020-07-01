@@ -6,6 +6,7 @@ import {
   forwardRef,
   Input,
   SimpleChanges,
+  OnInit,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
@@ -14,12 +15,15 @@ import { noop } from 'rxjs';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
-import { Transform } from 'prosemirror-transform';
 import { EditorView } from 'prosemirror-view';
 
-import RichTextEditor from 'licit/dist/ui/RichTextEditor';
-import LicitRuntime from 'licit/dist/client/LicitRuntime';
 import { convertFromJSON } from 'licit';
+import createEmptyEditorState from 'licit/dist/createEmptyEditorState';
+import RichTextEditor from 'licit/dist/ui/RichTextEditor';
+
+
+import { EditorChangeEvent } from './models';
+import { RuntimeService } from '../runtime.service';
 
 const FILL = '100%';
 
@@ -35,7 +39,7 @@ const FILL = '100%';
     },
   ],
 })
-export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccessor {
+export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlValueAccessor {
   //#region ControlValueAccessor
   /**
    * Stores angular supplied change notifier.
@@ -54,8 +58,11 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   /**
    * React component properties
    */
-  private readonly props: any;
-
+  private props: any;
+  /**
+   * Holds the inner editor instance
+   */
+  private editorView: EditorView = null;
   /**
    * Sets height prperty of the react component.
    * @param height The new value to set.
@@ -80,11 +87,19 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     this.update({ width });
   }
 
+  @Input() set placeholder(placeholder: string) {
+    placeholder = placeholder || undefined;
+    this.update({ placeholder });
+  }
+
   /**
    * Instances get constructed by angular
    * @param el Host element provided by angular
    */
-  constructor(el: ElementRef<HTMLElement>) {
+  constructor(
+    el: ElementRef<HTMLElement>,
+    runtime: RuntimeService
+  ) {
     this.div = el.nativeElement;
     // ControlValueAccessor
     this.onChange = noop;
@@ -103,9 +118,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       placeholder: undefined,
       readOnly: false,
       width: FILL,
-
-      editorState: null,
-      runtime: new LicitRuntime(),
+      editorState: createEmptyEditorState(),
+      runtime,
       onReady: this.onEditorReady.bind(this),
     };
   }
@@ -115,8 +129,13 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Called by angular when any Input() is changed.
    * @changes
    */
-  ngOnChanges(): void {
-    this.render();
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('ngOnChanges', changes);
+    this.render(true);
+  }
+
+  ngOnInit() {
+    this.render(true);
   }
   /**
    * Called by angular to clean up component.
@@ -125,18 +144,34 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     console.log('ngOnDestroy');
     // Clean up the react stuff
     ReactDOM.unmountComponentAtNode(this.div);
+    this.editorView = null;
   }
   //#endregion
 
   /**
    * Hanldes editor onChange callback
    * @param data editor data
-   * @param data.state Editor state before update
-   * @param data.transaction Editor state after update
    */
-  private onEditorChange({ transaction }: { transaction: Transform }): void {
-    this.onChange(transaction.doc.toJSON());
-    this.onTouched();
+  private onEditorChange(event: EditorChangeEvent) {
+
+    const { transaction, state } = event;
+    ReactDOM.unstable_batchedUpdates(() => {
+      // Something wrong with this.
+      // Frequently getting mismatched transaction erros in console but unable
+      // to diagnose exactly why.
+
+      // Using this 'apply' the fisrt keystroke succeeds, all others fail..
+      // const editorState = state.apply(transaction);
+
+      // Using this 'apply' most keystroke edits succeed. However using some
+      // menu buttons fail.
+      const editorState = this.editorView.state.apply(transaction);
+      this.editorView.updateState(editorState);
+    });
+    if (transaction.docChanged) {
+      this.onChange(transaction.doc.toJSON());
+      this.onTouched();
+    }
   }
   /**
    * Handles editor onReady callback.
@@ -145,17 +180,25 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    */
   private onEditorReady(editorView: EditorView): void {
     console.log('onEditorReady', editorView);
+    this.editorView = editorView;
   }
   /**
    * Renders the react component
    */
-  private render() {
-    // Create new react element
-    const el = React.createElement(RichTextEditor, this.props);
-    // Unmount was necessary to trigger update.
-    ReactDOM.unmountComponentAtNode(this.div);
-    // Fill content with new component.
-    ReactDOM.render(el, this.div);
+  private render(forceRedraw: boolean): void {
+    console.log('render', forceRedraw);
+    if (forceRedraw) {
+      this.ngOnDestroy();
+    }
+    if (this.editorView) {
+      // this.editorView.setProps(this.props);
+      this.editorView.updateState(this.props.editorState);
+    } else {
+      // Create new react element
+      const el = React.createElement(RichTextEditor, this.props);
+      // Fill content with new component.
+      ReactDOM.render(el, this.div);
+    }
   }
   /**
    * Updates one or more component properties.
@@ -193,12 +236,12 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   setDisabledState(disabled: boolean): void {
     console.log('setDisabledState', disabled);
     this.update({ disabled });
-    this.render();
+    this.render(true);
   }
   /**
    * Called by angular when external value is changed.
    *
-   * @param content
+   * @param content editor content to display
    */
   writeValue(content: any): void {
     console.log('writeValue', content);
@@ -207,9 +250,10 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       this.props.editorState = convertFromJSON(content);
     } else {
       // let editor create a new empty state
-      this.props.editorState = null;
+      this.props.editorState = createEmptyEditorState();
     }
-    this.render();
+    // Redrawing the editor in this case isn't necessary...
+    this.render(true);
   }
   //#endregion
 }

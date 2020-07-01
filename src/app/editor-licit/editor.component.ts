@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   ElementRef,
   OnDestroy,
   OnChanges,
@@ -92,7 +91,9 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Instances get constructed by angular
    * @param el Host element provided by angular
    */
-  constructor(el: ElementRef<HTMLElement>) {
+  constructor(
+    el: ElementRef<HTMLElement>
+  ) {
     this.div = el.nativeElement;
     // ControlValueAccessor
     this.onChange = noop;
@@ -114,7 +115,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       // When true editor will not show toolbar.
       readOnly: false,
       // Called by licit when react component is ready.
-      ref: this.onEditorReady.bind(this),
+      onReady: this.onEditorReady.bind(this),
       // Width of the editor
       width: FILL,
       // Outstanding questions:

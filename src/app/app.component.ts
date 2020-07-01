@@ -4,6 +4,12 @@ import { saveAs } from 'file-saver';
 
 import HELLO_WORLD from './docs/hello-world.json';
 import FONT_TEST from './docs/font-test.json';
+import { RuntimeService } from './runtime.service';
+import { forkJoin } from 'rxjs';
+
+import { EditorComponent as LicitEditor } from './editor-licit/editor.component';
+import { EditorComponent as RichEditor } from './editor-licit/editor.component';
+import { whichEditor } from './editor';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +17,8 @@ import FONT_TEST from './docs/font-test.json';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  readonly using = whichEditor();
+
   visible = true;
 
   disabled = false;
@@ -22,6 +30,8 @@ export class AppComponent implements OnInit {
   height = '';
 
   readOnly = false;
+
+  constructor(private readonly runtime: RuntimeService) {}
 
   /**
    * Called by angular when component is ready...
@@ -109,11 +119,26 @@ export class AppComponent implements OnInit {
 
   /**
    * Load the file from disk
-   * @param files
+   * @param files file to load.
    */
   async load(files: ArrayLike<File>) {
     if (files.length) {
-      this.store(await this.read(files[0]));
+      const doc = await this.read(files[0]);
+      this.store(doc);
+    }
+  }
+
+  /**
+   * Fetch token and endpoint from server
+   */
+  async token() {
+    try {
+      forkJoin([
+        this.runtime.endpoint$,
+        this.runtime.token$
+      ]).subscribe(value => console.log(value));
+    } catch (err) {
+      console.log(err);
     }
   }
 }

@@ -1,0 +1,4 @@
+{
+  "emsEndpoint":  "https://quinoa:8543/movia/",
+  "contentEndpoint":  "https://quinoa:8543/movia/content"
+}
