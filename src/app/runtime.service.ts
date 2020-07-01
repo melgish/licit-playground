@@ -117,6 +117,10 @@ export class RuntimeService implements EditorRuntime {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
+    // This code does not reflect reality (yet)
+    // In blade, Authorization headers are added by an angular HTTP_INTERCEPTOR
+    // Until I have time to implement one in this project, this is a cheap
+    // substitution.
     return forkJoin([this.endpoint$, this.token$]).pipe(
       mergeMap(([url, token]) => {
         const headers = new HttpHeaders().append('Authorization', token);

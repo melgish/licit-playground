@@ -1,0 +1,19 @@
+version: '3.4'
+
+volumes:
+  playground-data:
+    name: playground-data
+    external: false
+
+services:
+  cm:
+    build: .
+    container_name: playground
+    image: playground
+    restart: unless-stopped
+    ports:
+      - 8888:8888
+    volumes:
+      - playground-data:/home/node/data
+    environment:
+      - CM_PORT=8888
