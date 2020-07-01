@@ -1,6 +1,6 @@
 {
   "realm": "movia",
-  "auth-server-url": "https://quinoa:8543/auth/",
+  "auth-server-url": "auth",
   "ssl-required": "external",
   "resource": "playground",
   "verify-token-audience": true,
