@@ -15,8 +15,8 @@ RUN git clone https://github.com/melgish/tiny-cm.git -b master \
 # -- build playground from local source in docker
 COPY --chown=node:node . ./playground
 RUN cd playground \
-  && npm install \
   && npm install ./licit-0.0.1.tgz \
+  && npm install \
   && npm run build
 
 ENV \
