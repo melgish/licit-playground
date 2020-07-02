@@ -55,6 +55,14 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Contains the editor
    */
   private licit: Licit;
+  /**
+   * Sets embedded prperty of the react component.
+   * @param embedded The new value to set.
+   */
+  @Input() set embedded(embedded: boolean) {
+    embedded = !!embedded;
+    this.update({ embedded });
+  }
 
   /**
    * Sets height prperty of the react component.
@@ -76,6 +84,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
   }
+
   /**
    * Sets width prperty of the react component.
    * @param width The new value to set.

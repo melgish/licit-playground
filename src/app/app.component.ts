@@ -7,8 +7,6 @@ import FONT_TEST from './docs/font-test.json';
 import { RuntimeService } from './runtime.service';
 import { forkJoin } from 'rxjs';
 
-import { EditorComponent as LicitEditor } from './editor-licit/editor.component';
-import { EditorComponent as RichEditor } from './editor-licit/editor.component';
 import { whichEditor } from './editor';
 
 @Component({
@@ -22,6 +20,8 @@ export class AppComponent implements OnInit {
   visible = true;
 
   disabled = false;
+
+  embedded = false;
 
   content: any = null;
 

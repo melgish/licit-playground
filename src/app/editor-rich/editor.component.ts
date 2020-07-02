@@ -64,6 +64,14 @@ export class EditorComponent implements OnChanges, OnDestroy, OnInit, ControlVal
    */
   private editorView: EditorView = null;
   /**
+   * Sets embedded prperty of the react component.
+   * @param embedded The new value to set.
+   */
+  @Input() set embedded(embedded: boolean) {
+    embedded = !!embedded;
+    this.update({ embedded });
+  }
+  /**
    * Sets height prperty of the react component.
    * @param height The new value to set.
    */
