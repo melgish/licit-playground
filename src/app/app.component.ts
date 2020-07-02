@@ -98,7 +98,7 @@ export class AppComponent implements OnInit {
 
   /**
    * Read and load the current file
-   * @param file
+   * @param file File to read
    */
   private read(file: File): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -134,8 +134,8 @@ export class AppComponent implements OnInit {
   async token() {
     try {
       forkJoin([
-        this.runtime.endpoint$,
-        this.runtime.token$
+        this.runtime.auth.endpoint$,
+        this.runtime.auth.token$
       ]).subscribe(value => console.log(value));
     } catch (err) {
       console.log(err);

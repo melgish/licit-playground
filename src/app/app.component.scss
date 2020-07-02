@@ -19,31 +19,34 @@ nav, footer {
   box-shadow: 0 2px 4px #00000080;
 }
 
-main {
-  display: grid;
-  grid-template-columns: 25% 75%;
-}
-
-aside {
+.aside {
   display: grid;
   background-color: #ccc;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto 1fr;
-  gap: 1rem;
-  padding: 1rem;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  justify-content: start;
+  align-content: flex-start;
 }
 
-article {
+.article {
   display: grid;
   background-color: #aaa;
   grid-template-rows: auto 1fr;
 }
+
 
 .title {
   font-size: 20px;
   background-color: #aaa;
   text-align: center;
   padding: 6px 0;
+}
+
+.editor {
+  // only applies when embedded
+  background-color: #fff;
 }
 
 .buttons > * {
@@ -66,9 +69,13 @@ article {
 
 pre {
   margin: 0;
-  padding: 0;
+  padding: 0.25rem;
   overflow: auto;
-  max-height: 75vh;
+  max-height: 100%;
+  background-color: white;
 }
 
 
+:host ::ng-deep .as-split-gutter {
+  background-color: forestgreen !important;
+}

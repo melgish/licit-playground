@@ -1,11 +1,14 @@
 <nav>NAVBAR</nav>
-<main>
-  <aside>
+<as-split unit="pixel" class="main">
+  <as-split-area class="aside" size="250">
     <div>Using: {{ using }}</div>
     <div class="buttons">
-      <app-toggle [(ngModel)]="visible">Visibility</app-toggle>
+      <app-toggle [(ngModel)]="visible" style="min-width: 3rem;">
+        {{ visible ? 'Editor' : 'JSON' }}
+      </app-toggle>
       <app-toggle [(ngModel)]="disabled">Disabled</app-toggle>
       <app-toggle [(ngModel)]="readOnly">Read Only</app-toggle>
+      <app-toggle [(ngModel)]="embedded">Embedded</app-toggle>
       <button type="button" (click)="clear()">Clear</button>
       <button type="button" (click)="save()">Save&hellip;</button>
       <button type="button" (click)="file.click()">Load&hellip;</button>
@@ -24,12 +27,12 @@
         style="display: none;"
       />
     </div>
-    <pre>{{ content | json }}</pre>
-  </aside>
-  <article>
+  </as-split-area>
+  <as-split-area class="article" size="*">
     <div class="title">TITLE</div>
-    <maw-editor #editor
-      *ngIf="visible"
+    <maw-editor
+      #editor
+      *ngIf="visible; else json"
       class="editor"
       [ngModel]="content"
       (ngModelChange)="store($event)"
@@ -37,7 +40,11 @@
       [width]="width"
       [height]="height"
       [readOnly]="readOnly"
+      [embedded]="embedded"
     ></maw-editor>
-  </article>
-</main>
+    <ng-template #json>
+      <pre>{{ content | json }}</pre>
+    </ng-template>
+  </as-split-area>
+</as-split>
 <footer>FOOTER</footer>
