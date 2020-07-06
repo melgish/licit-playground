@@ -14,7 +14,8 @@
       <button type="button" (click)="file.click()">Load&hellip;</button>
       <button type="button" (click)="hello()">Hello World</button>
       <button type="button" (click)="fonts()">Fonts</button>
-      <button type="button" (click)="token()">Keycloak Test</button>
+      <button type="button" class="extra" (click)="token()">Keycloak Test</button>
+      <button type="button" class="extra" (click)="getDocs()">Image List</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
@@ -27,6 +28,11 @@
         style="display: none;"
       />
     </div>
+    <ul>
+      <li *ngFor="let doc of docs">
+        <a [href]="doc.url" target="_blank">{{doc.fileName}}</a>
+      </li>
+    </ul>
   </as-split-area>
   <as-split-area class="article" size="*">
     <div class="title">TITLE</div>

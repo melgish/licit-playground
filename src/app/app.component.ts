@@ -8,6 +8,9 @@ import { RuntimeService } from './runtime.service';
 import { forkJoin } from 'rxjs';
 
 import { whichEditor } from './editor';
+import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import { mergeMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -31,7 +34,13 @@ export class AppComponent implements OnInit {
 
   readOnly = false;
 
-  constructor(private readonly runtime: RuntimeService) {}
+  docs: {url: string, fileName: string }[] = [];
+
+  constructor(
+    private readonly runtime: RuntimeService,
+    private readonly auth: AuthService,
+    private readonly http: HttpClient
+  ) {}
 
   /**
    * Called by angular when component is ready...
@@ -133,10 +142,29 @@ export class AppComponent implements OnInit {
    */
   async token() {
     try {
-      forkJoin([
-        this.runtime.auth.endpoint$,
-        this.runtime.auth.token$
-      ]).subscribe(value => console.log(value));
+      forkJoin([this.auth.endpoint$, this.auth.token$]).subscribe((value) =>
+        console.log(value)
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /**
+   * Fetch list of images from fake content endpoint
+   */
+  async getDocs() {
+    try {
+      this.auth.endpoint$
+        .pipe(
+          mergeMap((ep) =>
+            this.http.get<{ url: string; mimeType: string; fileName: string }[]>(ep)
+          ),
+          map((docs) =>
+            docs.map(({ url, mimeType, fileName }) => ({ url, mimeType, fileName }))
+          )
+        )
+        .subscribe((docs) => this.docs = docs);
     } catch (err) {
       console.log(err);
     }

@@ -65,6 +65,10 @@ nav, footer {
     color: #eee;
     background-color: forestgreen;
   }
+  &.extra {
+    background-color: #bbf;
+    border-color: blue;
+  }
 }
 
 pre {

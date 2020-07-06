@@ -20,69 +20,222 @@
       "content": [
         {
           "type": "text",
-          "marks": [
-            {
-              "type": "mark-font-size",
-              "attrs": {
-                "pt": 30
-              }
-            },
-            {
-              "type": "mark-font-type",
-              "attrs": {
-                "name": "Arial"
-              }
-            },
-            {
-              "type": "strong"
-            }
-          ],
-          "text": "Hello "
+          "text": " "
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null,
+        "level": 1
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Hello World Document 2.0"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "image",
+          "attrs": {
+            "align": "left",
+            "alt": "",
+            "crop": null,
+            "height": 129.12,
+            "rotate": null,
+            "src": "assets/ship-it.png",
+            "title": "",
+            "width": 192
+          }
+        },
+        {
+          "type": "text",
+          "text": "The "
         },
         {
           "type": "text",
           "marks": [
             {
               "type": "em"
-            },
-            {
-              "type": "mark-font-size",
-              "attrs": {
-                "pt": 30
-              }
-            },
-            {
-              "type": "mark-font-type",
-              "attrs": {
-                "name": "Arial"
-              }
-            },
-            {
-              "type": "strong"
             }
           ],
-          "text": "World"
+          "text": "image"
+        },
+        {
+          "type": "text",
+          "text": " to the left was created with "
         },
         {
           "type": "text",
           "marks": [
             {
-              "type": "mark-font-size",
+              "type": "link",
               "attrs": {
-                "pt": 30
+                "href": "http://www.inkscape.org",
+                "rel": "noopener noreferrer nofollow",
+                "target": "blank",
+                "title": null
               }
-            },
+            }
+          ],
+          "text": "Inkscape"
+        },
+        {
+          "type": "text",
+          "text": ", and exported as a PNG file. It’s stored locally in the project with the URL "
+        },
+        {
+          "type": "text",
+          "marks": [
             {
-              "type": "mark-font-type",
+              "type": "link",
               "attrs": {
-                "name": "Arial"
+                "href": "http://assets/ship-it.png",
+                "rel": "noopener noreferrer nofollow",
+                "target": "blank",
+                "title": null
               }
-            },
+            }
+          ],
+          "text": "assets/ship-it.png"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "underline"
+            }
+          ],
+          "text": "There doesn’t appear to be any way"
+        },
+        {
+          "type": "text",
+          "text": " to flow down past the image other than stuffing in a series of carriage returns or filler text like this sentence."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "When typing the URL of the image, every keystroke will issue a request to the server.  This can be a problem on servers that are "
+        },
+        {
+          "type": "text",
+          "marks": [
             {
               "type": "strong"
             }
           ],
-          "text": " "
+          "text": "slow"
+        },
+        {
+          "type": "text",
+          "text": " to respond, or servers that return different content. "
         }
       ]
     }

@@ -7,6 +7,7 @@ import { stringify } from 'querystring';
 
 /**
  * Create URL from different components.
+ *
  * @param root root URI to start from
  * @param args additional path elements to add
  */
@@ -78,7 +79,7 @@ export class AuthService implements HttpInterceptor {
             setHeaders: { Authorization: token },
           })
         );
-      )
+      })
     );
   }
 }

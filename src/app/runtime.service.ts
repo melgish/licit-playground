@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Location } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { shareReplay, map, mergeMap, pluck, tap } from 'rxjs/operators';
-import { Observable, from, forkJoin, defer, merge } from 'rxjs';
-import { get } from 'lodash';
+import { HttpClient } from '@angular/common/http';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 export interface ImageLike {
@@ -36,9 +34,15 @@ export class RuntimeService implements EditorRuntime {
   /**
    * Instances are constructed by angular.
    *
-   * @param http angular http service
+   * @param http angular http service.
+   * @param auth authentication service.
    */
-  constructor(readonly auth: AuthService, private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly auth: AuthService,
+  ) {
+
+  }
 
   /**
    * Editor calls this to see if image can be uploaded.
@@ -74,15 +78,27 @@ export class RuntimeService implements EditorRuntime {
         )
       )
       .toPromise();
-  };
+  }
 
+  /**
+   * Test if image can be proxied
+   *
+   * @param src source path of image.
+   */
   canProxyImageSrc = (src: string): boolean => {
     console.log('canProxyImageSrc', src);
-    return true;
-  };
 
+    return true;
+  }
+
+  /**
+   * Gets URL of image
+   *
+   * @param src source path of image.
+   */
   getProxyImageSrc = (src: string): string => {
     console.log('getProxyImageSrc', src);
+
     return src;
-  };
+  }
 }

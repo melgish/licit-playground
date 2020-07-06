@@ -1,4 +1,4 @@
-FROM node:lts-alpine as tiny-cm
+FROM node:lts-alpine
 RUN apk --update add --no-cache bash git openssh make \
  && rm -rf /var/cache/apk
 
