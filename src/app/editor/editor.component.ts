@@ -15,6 +15,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // Licit stuff
 import { Licit } from 'licit';
+import { RuntimeService } from '../runtime.service';
 
 const FILL = '100%';
 
@@ -62,6 +63,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   @Input() set embedded(embedded: boolean) {
     embedded = !!embedded;
     this.update({ embedded });
+    // Do not need to call render here because ngOnChanges will be called after
+    // all inputs are updated.
   }
 
   /**
@@ -101,7 +104,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * @param el Host element provided by angular
    */
   constructor(
-    el: ElementRef<HTMLElement>
+    el: ElementRef<HTMLElement>,
+    private readonly runtime: RuntimeService
   ) {
     this.div = el.nativeElement;
     // ControlValueAccessor
@@ -131,7 +135,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       // What goes here to enable / disable toolbar buttons?
       // What goes here to add additional plugins?
       // What goes here to disable existing plugins?
-      // What events go here to manage uploads?
+      runtime: this.runtime,
     };
   }
 
@@ -173,6 +177,13 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   private onEditorReady(licit: Licit): void {
     console.log('onEditorReady', licit);
     this.licit = licit;
+    // Brute force a different runtime until it's available to include
+    // as a property
+    if (this.licit._runtime !== this.runtime) {
+      console.warn('overwriting runtime');
+      this.licit._editorView.runtime = this.runtime;
+      this.licit._runtime = this.runtime;
+    }
   }
 
   /**

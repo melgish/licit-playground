@@ -10,7 +10,7 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { RuntimeService } from './runtime.service';
 
 // chooses editor to use
-import { EditorComponent } from './editor';
+import { EditorComponent } from './editor/editor.component';
 import { AuthService } from './auth.service';
 
 @NgModule({

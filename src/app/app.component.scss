@@ -9,7 +9,8 @@
   width: 100vw;
 }
 
-nav, footer {
+nav,
+footer {
   padding: 6px 0;
   text-align: center;
   font-size: 20px;
@@ -35,7 +36,6 @@ nav, footer {
   background-color: #aaa;
   grid-template-rows: auto 1fr;
 }
-
 
 .title {
   font-size: 20px;
@@ -79,7 +79,30 @@ pre {
   background-color: white;
 }
 
-
 :host ::ng-deep .as-split-gutter {
   background-color: forestgreen !important;
+}
+
+.btn {
+  // look like a button
+  display: inline-block;
+  font-weight: bold;
+  border: 1px solid blue;
+  padding: 0 0.25rem;
+  text-align: center;
+  margin-right: 0.25rem;
+  background-color: #bbf;
+  border-radius: 0.25rem;
+  margin-bottom: 0.125rem;
+}
+
+ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+  margin-top: 0;
+  li > span.btn {
+    width: 1rem;
+    color: darkred;
+  }
 }

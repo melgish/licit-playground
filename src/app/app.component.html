@@ -1,7 +1,6 @@
 <nav>NAVBAR</nav>
 <as-split unit="pixel" class="main">
   <as-split-area class="aside" size="250">
-    <div>Using: {{ using }}</div>
     <div class="buttons">
       <app-toggle [(ngModel)]="visible" style="min-width: 3rem;">
         {{ visible ? 'Editor' : 'JSON' }}
@@ -15,7 +14,6 @@
       <button type="button" (click)="hello()">Hello World</button>
       <button type="button" (click)="fonts()">Fonts</button>
       <button type="button" class="extra" (click)="token()">Keycloak Test</button>
-      <button type="button" class="extra" (click)="getDocs()">Image List</button>
     </div>
     <div>
       <input placeholder="width" [(ngModel)]="width" />
@@ -28,9 +26,12 @@
         style="display: none;"
       />
     </div>
+    <div>CM CONTENTS <span class="btn" (click)="getDocs()">Get</span></div>
     <ul>
       <li *ngFor="let doc of docs">
+        <span class="btn" (click)="delete(doc)">&times;</span>
         <a [href]="doc.url" target="_blank">{{doc.fileName}}</a>
+
       </li>
     </ul>
   </as-split-area>

@@ -1,16 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { cloneDeep } from 'lodash';
 import { saveAs } from 'file-saver';
 
 import HELLO_WORLD from './docs/hello-world.json';
 import FONT_TEST from './docs/font-test.json';
-import { RuntimeService } from './runtime.service';
 import { forkJoin } from 'rxjs';
 
-import { whichEditor } from './editor';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
+
+export interface Meta {
+  url: string;
+  mimeType: string;
+  fileName: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -18,8 +23,6 @@ import { mergeMap, map } from 'rxjs/operators';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  readonly using = whichEditor();
-
   visible = true;
 
   disabled = false;
@@ -37,7 +40,6 @@ export class AppComponent implements OnInit {
   docs: {url: string, fileName: string }[] = [];
 
   constructor(
-    private readonly runtime: RuntimeService,
     private readonly auth: AuthService,
     private readonly http: HttpClient
   ) {}
@@ -47,6 +49,7 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.recall();
+    this.getDocs();
   }
 
   /**
@@ -155,16 +158,22 @@ export class AppComponent implements OnInit {
    */
   async getDocs() {
     try {
-      this.auth.endpoint$
-        .pipe(
-          mergeMap((ep) =>
-            this.http.get<{ url: string; mimeType: string; fileName: string }[]>(ep)
-          ),
-          map((docs) =>
-            docs.map(({ url, mimeType, fileName }) => ({ url, mimeType, fileName }))
-          )
+      this.docs = await this.auth.endpoint$
+      .pipe(
+        mergeMap((ep: string) => this.http.get<Meta[]>(ep)),
+        map((docs) =>
+          docs.map(({ url, mimeType, fileName }) => ({ url, mimeType, fileName }))
         )
-        .subscribe((docs) => this.docs = docs);
+      ).toPromise();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async delete({url}: { url: string }) {
+    try {
+      await this.http.delete(url).toPromise();
+      await this.getDocs();
     } catch (err) {
       console.log(err);
     }
