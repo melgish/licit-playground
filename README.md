@@ -2,13 +2,39 @@
 
 Demonstrating use of MO-Movia/licit in an Angular application.
 
-Note that MO-Movia/licit is still under heavy development and requires manual installation.
+# Docker deployment
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.2.
+This repository contains a docker application to serve as a simple back-end for devleopment of editor applications.  It will open port 8888 for serving the editor page along with a simple CM server for hosting documents.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Before building the docker stack, the licit editor must be built and added to the project folder.
+
+```bash
+git clone https://github.com/MO-Movia/licit.git -b master
+cd licit
+npm install
+npm pack
+# note full name and location of licit-0.0.1.tgz for use below
+```
+
+## build the stack
+
+```bash
+git clone https://github.com/melgish/licit-playground.git -b master
+cd licit-playground
+# change source to match path nodet in Prerequisites
+cp ../licit/licit-0.0.1.tgz .
+# use --no-cache here to force update of tiny-cm if changed
+docker-compose build --no-cache
+docker-compose up -d
+```
 
 ## Proxy Info
-Proxy is configured in poxy.conf.js to use port 8888 for calls that would normally go to keycloak or ems.
+A development proxy is configured in poxy.conf.js to refer calls to port 8888.  This allows local angular development / testing of licit-playground using a previosuly created docker CM server
+
+```bash
+docker-compose up -d 
+npm start
+# browse to http://127.0.0.1:4200
+```
