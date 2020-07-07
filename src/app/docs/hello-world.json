@@ -537,7 +537,7 @@
       "content": [
         {
           "type": "text",
-          "text": "Justifcation"
+          "text": "Justification"
         }
       ]
     },
@@ -573,7 +573,7 @@
       "content": [
         {
           "type": "text",
-          "text": "This line is jusified on the left."
+          "text": "This line is justified on the left."
         }
       ]
     },
@@ -952,7 +952,19 @@
                   "content": [
                     {
                       "type": "text",
-                      "text": "Of Blue"
+                      "text": "Of "
+                    },
+                    {
+                      "type": "text",
+                      "marks": [
+                        {
+                          "type": "mark-text-color",
+                          "attrs": {
+                            "color": "#7d92e8"
+                          }
+                        }
+                      ],
+                      "text": "Blue"
                     }
                   ]
                 }
