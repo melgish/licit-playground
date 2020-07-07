@@ -38,27 +38,28 @@
       },
       "content": [
         {
+          "type": "image",
+          "attrs": {
+            "align": "center",
+            "alt": "",
+            "crop": null,
+            "height": null,
+            "rotate": null,
+            "src": "assets/gator.jpg",
+            "title": "",
+            "width": null
+          }
+        },
+        {
           "type": "text",
-          "text": "Hello World Document 2.0"
+          "text": "Hello World 3.0"
         }
       ]
     },
     {
       "type": "paragraph",
       "attrs": {
-        "align": null,
-        "color": null,
-        "id": null,
-        "indent": null,
-        "lineSpacing": null,
-        "paddingBottom": null,
-        "paddingTop": null
-      }
-    },
-    {
-      "type": "paragraph",
-      "attrs": {
-        "align": null,
+        "align": "justify",
         "color": null,
         "id": null,
         "indent": null,
@@ -73,11 +74,11 @@
             "align": "left",
             "alt": "",
             "crop": null,
-            "height": 129.12,
+            "height": null,
             "rotate": null,
-            "src": "assets/ship-it.png",
+            "src": "assets/ping.png",
             "title": "",
-            "width": 192
+            "width": null
           }
         },
         {
@@ -95,7 +96,91 @@
         },
         {
           "type": "text",
-          "text": " to the left was created with "
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "strong"
+            }
+          ],
+          "text": "to"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "underline"
+            }
+          ],
+          "text": "the"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-text-color",
+              "attrs": {
+                "color": "#f20d0d"
+              }
+            }
+          ],
+          "text": "left"
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-text-color",
+              "attrs": {
+                "color": "#e5e5e5"
+              }
+            }
+          ],
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-text-color",
+              "attrs": {
+                "color": "#e5e5e5"
+              }
+            },
+            {
+              "type": "mark-text-highlight",
+              "attrs": {
+                "highlightColor": "#151515"
+              }
+            }
+          ],
+          "text": "was"
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-text-color",
+              "attrs": {
+                "color": "#e5e5e5"
+              }
+            }
+          ],
+          "text": " "
+        },
+        {
+          "type": "text",
+          "text": "created as an SVG file with "
         },
         {
           "type": "text",
@@ -114,7 +199,33 @@
         },
         {
           "type": "text",
-          "text": ", and exported as a PNG file. It’s stored locally in the project with the URL "
+          "text": ", and then exported as a PNG"
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "super"
+            }
+          ],
+          "text": "[1]"
+        },
+        {
+          "type": "text",
+          "text": " file. It’s "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "strike"
+            }
+          ],
+          "text": "stored"
+        },
+        {
+          "type": "text",
+          "text": " saved locally in the project with the URL "
         },
         {
           "type": "text",
@@ -129,14 +240,14 @@
               }
             }
           ],
-          "text": "assets/ship-it.png"
+          "text": "assets/ping.png"
         }
       ]
     },
     {
       "type": "paragraph",
       "attrs": {
-        "align": null,
+        "align": "justify",
         "color": null,
         "id": null,
         "indent": null,
@@ -148,7 +259,7 @@
     {
       "type": "paragraph",
       "attrs": {
-        "align": null,
+        "align": "justify",
         "color": null,
         "id": null,
         "indent": null,
@@ -161,14 +272,241 @@
           "type": "text",
           "marks": [
             {
-              "type": "underline"
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Arial"
+              }
             }
           ],
-          "text": "There doesn’t appear to be any way"
+          "text": "One"
         },
         {
           "type": "text",
-          "text": " to flow down past the image other than stuffing in a series of carriage returns or filler text like this sentence."
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Aclonica"
+              }
+            }
+          ],
+          "text": "of"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Acme"
+              }
+            }
+          ],
+          "text": "the"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Alegreya"
+              }
+            }
+          ],
+          "text": "editor"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Arial Black"
+              }
+            }
+          ],
+          "text": "limitations"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Georgia"
+              }
+            }
+          ],
+          "text": "is"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Georgia"
+              }
+            }
+          ],
+          "text": "the"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Tahoma"
+              }
+            }
+          ],
+          "text": "lack"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Times New Roman"
+              }
+            }
+          ],
+          "text": "of"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Times"
+              }
+            }
+          ],
+          "text": "a"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Verdana"
+              }
+            }
+          ],
+          "text": "hard"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Courier New"
+              }
+            }
+          ],
+          "text": "return"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Lucida Console"
+              }
+            }
+          ],
+          "text": "to"
+        },
+        {
+          "type": "text",
+          "text": " "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "Monaco"
+              }
+            }
+          ],
+          "text": "exit"
+        },
+        {
+          "type": "text",
+          "text": " the "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "mark-font-type",
+              "attrs": {
+                "name": "monospace"
+              }
+            }
+          ],
+          "text": "floating"
+        },
+        {
+          "type": "text",
+          "text": " area.  Instead multiple carriage returns are necessary to get down to the next full line."
         }
       ]
     },
@@ -185,7 +523,7 @@
       }
     },
     {
-      "type": "paragraph",
+      "type": "heading",
       "attrs": {
         "align": null,
         "color": null,
@@ -193,25 +531,20 @@
         "indent": null,
         "lineSpacing": null,
         "paddingBottom": null,
-        "paddingTop": null
-      }
+        "paddingTop": null,
+        "level": 2
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Justifcation"
+        }
+      ]
     },
     {
       "type": "paragraph",
       "attrs": {
-        "align": null,
-        "color": null,
-        "id": null,
-        "indent": null,
-        "lineSpacing": null,
-        "paddingBottom": null,
-        "paddingTop": null
-      }
-    },
-    {
-      "type": "paragraph",
-      "attrs": {
-        "align": null,
+        "align": "left",
         "color": null,
         "id": null,
         "indent": null,
@@ -222,22 +555,424 @@
       "content": [
         {
           "type": "text",
-          "text": "When typing the URL of the image, every keystroke will issue a request to the server.  This can be a problem on servers that are "
+          "text": "The first section is fully justified."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": "left",
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "This line is jusified on the left."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": "right",
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "This line is justified on the right."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": "center",
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "This line is justified in the center."
+        }
+      ]
+    },
+    {
+      "type": "horizontal_rule",
+      "attrs": {
+        "pageBreak": null
+      }
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "align": "justify",
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null,
+        "level": 2
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Spacing"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": "138%",
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "This section is using the default spacing.  This section is using the default spacing.  This section is using the default spacing.  This section is using the default spacing.  "
         },
         {
           "type": "text",
           "marks": [
             {
-              "type": "strong"
+              "type": "mark-font-size",
+              "attrs": {
+                "pt": 24
+              }
             }
           ],
-          "text": "slow"
+          "text": "This section"
         },
         {
           "type": "text",
-          "text": " to respond, or servers that return different content. "
+          "text": " is using the default spacing.  This section is using the default spacing.  This section is using the default spacing.  "
         }
       ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": "232%",
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "This section is double spaced. This section is double spaced. This section is double spaced. This section is double spaced. This section is double spaced. This section is double spaced. This section is double spaced. This section is double spaced. "
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null,
+        "level": 2
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Indentation"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": 1,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Indented"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": 2,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Indented"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": 3,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Indented"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": 2,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Outdented"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null,
+        "level": 1
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "Tables"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
+    },
+    {
+      "type": "table",
+      "attrs": {
+        "marginLeft": null
+      },
+      "content": [
+        {
+          "type": "table_row",
+          "content": [
+            {
+              "type": "table_cell",
+              "attrs": {
+                "colspan": 1,
+                "rowspan": 1,
+                "colwidth": null,
+                "borderColor": null,
+                "background": null
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "attrs": {
+                    "align": null,
+                    "color": null,
+                    "id": null,
+                    "indent": null,
+                    "lineSpacing": null,
+                    "paddingBottom": null,
+                    "paddingTop": null
+                  },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Two"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "attrs": {
+                "colspan": 1,
+                "rowspan": 1,
+                "colwidth": null,
+                "borderColor": null,
+                "background": null
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "attrs": {
+                    "align": null,
+                    "color": null,
+                    "id": null,
+                    "indent": null,
+                    "lineSpacing": null,
+                    "paddingBottom": null,
+                    "paddingTop": null
+                  },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "By Two"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table_row",
+          "content": [
+            {
+              "type": "table_cell",
+              "attrs": {
+                "colspan": 1,
+                "rowspan": 1,
+                "colwidth": null,
+                "borderColor": null,
+                "background": null
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "attrs": {
+                    "align": null,
+                    "color": null,
+                    "id": null,
+                    "indent": null,
+                    "lineSpacing": null,
+                    "paddingBottom": null,
+                    "paddingTop": null
+                  },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Hands"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "attrs": {
+                "colspan": 1,
+                "rowspan": 1,
+                "colwidth": null,
+                "borderColor": null,
+                "background": null
+              },
+              "content": [
+                {
+                  "type": "paragraph",
+                  "attrs": {
+                    "align": null,
+                    "color": null,
+                    "id": null,
+                    "indent": null,
+                    "lineSpacing": null,
+                    "paddingBottom": null,
+                    "paddingTop": null
+                  },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "Of Blue"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "attrs": {
+        "align": null,
+        "color": null,
+        "id": null,
+        "indent": null,
+        "lineSpacing": null,
+        "paddingBottom": null,
+        "paddingTop": null
+      }
     }
   ]
 }
