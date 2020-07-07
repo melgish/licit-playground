@@ -10,6 +10,7 @@ import { forkJoin } from 'rxjs';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
+import { RuntimeService } from './runtime.service';
 
 export interface Meta {
   url: string;
@@ -41,7 +42,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private readonly auth: AuthService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
+    private readonly runtime: RuntimeService
   ) {}
 
   /**
@@ -49,7 +51,7 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.recall();
-    this.getDocs();
+    this.getContent();
   }
 
   /**
@@ -80,7 +82,7 @@ export class AppComponent implements OnInit {
   /**
    * Clear content and session storage.
    */
-  clear() {
+  clearDocument() {
     this.content = null;
     sessionStorage.removeItem('content.json');
   }
@@ -102,7 +104,7 @@ export class AppComponent implements OnInit {
   /**
    * Save/Download current document to file
    */
-  save() {
+  saveDocument() {
     const json = JSON.stringify(this.content, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     saveAs(blob, 'content.json');
@@ -133,9 +135,10 @@ export class AppComponent implements OnInit {
    * Load the file from disk
    * @param files file to load.
    */
-  async load(files: ArrayLike<File>) {
-    if (files.length) {
-      const doc = await this.read(files[0]);
+  async loadDocument(input: HTMLInputElement) {
+    if (input.files.length) {
+      const doc = await this.read(input.files[0]);
+      input.value = null;
       this.store(doc);
     }
   }
@@ -156,7 +159,7 @@ export class AppComponent implements OnInit {
   /**
    * Fetch list of images from fake content endpoint
    */
-  async getDocs() {
+  async getContent() {
     try {
       this.docs = await this.auth.endpoint$
       .pipe(
@@ -170,10 +173,32 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async delete({url}: { url: string }) {
+  /**
+   * Delete content from CM
+   * @param param0 Identifies item to delete
+   */
+
+  async deleteContent({url}: { url: string }) {
     try {
       await this.http.delete(url).toPromise();
-      await this.getDocs();
+      await this.getContent();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  /**
+   * Upload content directly to CM
+   *
+   * @param input input control with file list to upload.
+   */
+  async uploadContent(input: HTMLInputElement) {
+    try {
+      if (input.files.length) {
+        // Leverage existing method
+        await this.runtime.uploadImage(input.files[0]);
+      }
+      await this.getContent();
     } catch (err) {
       console.log(err);
     }

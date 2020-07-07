@@ -2,36 +2,34 @@
 <as-split unit="pixel" class="main">
   <as-split-area class="aside" size="250">
     <div class="buttons">
-      <app-toggle [(ngModel)]="visible" style="min-width: 3rem;">
+      <app-toggle class="btn" [(ngModel)]="visible" style="min-width: 3rem;">
         {{ visible ? 'Editor' : 'JSON' }}
       </app-toggle>
-      <app-toggle [(ngModel)]="disabled">Disabled</app-toggle>
-      <app-toggle [(ngModel)]="readOnly">Read Only</app-toggle>
-      <app-toggle [(ngModel)]="embedded">Embedded</app-toggle>
-      <button type="button" (click)="clear()">Clear</button>
-      <button type="button" (click)="save()">Save&hellip;</button>
-      <button type="button" (click)="file.click()">Load&hellip;</button>
-      <button type="button" (click)="hello()">Hello World</button>
-      <button type="button" (click)="fonts()">Fonts</button>
-      <button type="button" class="extra" (click)="token()">Keycloak Test</button>
+      <app-toggle class="btn" [(ngModel)]="disabled">Disabled</app-toggle>
+      <app-toggle class="btn" [(ngModel)]="readOnly">Read Only</app-toggle>
+      <app-toggle class="btn" [(ngModel)]="embedded">Embedded</app-toggle>
+      <button type="button" class="btn green" (click)="clearDocument()">Clear</button>
+      <button type="button" class="btn green" (click)="saveDocument()">Save&hellip;</button>
+      <button type="button" class="btn green" (click)="f1.click()">Load&hellip;</button>
+      <button type="button" class="btn green" (click)="hello()">Hello World</button>
+      <button type="button" class="btn green" (click)="fonts()">Fonts</button>
+      <button type="button" class="btn" (click)="token()">Keycloak Test</button>
     </div>
     <div>
+      <input #f1 type="file" accept=".json" (change)="loadDocument($event.target)" />
       <input placeholder="width" [(ngModel)]="width" />
       <input placeholder="height" [(ngModel)]="height" />
-      <input
-        #file
-        type="file"
-        accept=".json"
-        (change)="load($event.target.files)"
-        style="display: none;"
-      />
     </div>
-    <div>CM CONTENTS <span class="btn" (click)="getDocs()">Get</span></div>
+    <div>
+      <div>CM CONTENTS</div>
+      <input #f2 type="file" (change)="uploadContent($event.target)" accept="image/*" />
+      <button class="btn" (click)="getContent()">Reload</button>
+      <button class="btn" (click)="f2.click()">Upload&hellip;</button>
+    </div>
     <ul>
       <li *ngFor="let doc of docs">
-        <span class="btn" (click)="delete(doc)">&times;</span>
-        <a [href]="doc.url" target="_blank">{{doc.fileName}}</a>
-
+        <span class="btn" (click)="deleteContent(doc)">&times;</span>
+        <a [href]="doc.url" target="_blank">{{ doc.fileName }}</a>
       </li>
     </ul>
   </as-split-area>
