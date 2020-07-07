@@ -72,7 +72,7 @@ footer {
   display: grid;
   background-color: #ccc;
   grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto 1fr;
+  grid-template-rows: auto;
   gap: 0.5rem;
   padding: 0.5rem;
   justify-content: start;

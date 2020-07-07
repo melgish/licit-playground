@@ -13,14 +13,14 @@
       <button type="button" class="btn green" (click)="f1.click()">Load&hellip;</button>
       <button type="button" class="btn green" (click)="hello()">Hello World</button>
       <button type="button" class="btn green" (click)="fonts()">Fonts</button>
-      <button type="button" class="btn" (click)="token()">Keycloak Test</button>
     </div>
     <div>
       <input #f1 type="file" accept=".json" (change)="loadDocument($event.target)" />
-      <input placeholder="width" [(ngModel)]="width" />
-      <input placeholder="height" [(ngModel)]="height" />
+      <input placeholder="width (75%|8in|600px|&hellip;)" [(ngModel)]="width" />
+      <input placeholder="height: (75%|5in|480px|&hellip;)" [(ngModel)]="height" />
     </div>
     <div>
+      <hr>
       <div>CM CONTENTS</div>
       <input #f2 type="file" (change)="uploadContent($event.target)" accept="image/*" />
       <button class="btn" (click)="getContent()">Reload</button>
@@ -32,6 +32,10 @@
         <a [href]="doc.url" target="_blank">{{ doc.fileName }}</a>
       </li>
     </ul>
+    <div>
+      <hr>
+      <button type="button" class="btn" (click)="token()">Keycloak Test</button>
+    </div>
   </as-split-area>
   <as-split-area class="article" size="*">
     <div class="title">TITLE</div>

@@ -88,7 +88,7 @@ export class RuntimeService implements EditorRuntime {
   canProxyImageSrc = (src: string): boolean => {
     console.log('canProxyImageSrc', src);
 
-    return true;
+    return false;
   }
 
   /**
