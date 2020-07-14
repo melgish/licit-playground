@@ -15,7 +15,8 @@ git clone https://github.com/MO-Movia/licit.git -b master
 cd licit
 npm install
 npm pack
-# note full name and location of licit-0.0.1.tgz for use below
+# NOTE full name and location of modusoperandi-licit-${VERSION}.tgz for use 
+# below!
 ```
 
 ## Build and start the stack
@@ -23,19 +24,22 @@ npm pack
 ```bash
 git clone https://github.com/melgish/licit-playground.git -b master
 cd licit-playground
-# change source to match path noted in Prerequisites step
-cp ../licit/licit-0.0.1.tgz .
-# use --no-cache here to force update of tiny-cm if changed
+# Use corret path to source noted above. Copy operation must rename file to 
+# match the name used in Docker image.  Hint: truncate -${VERSION} numbers.
+cp ../licit/modusoperandi-licit-${VERSION}.tgz ./modusoperandi-licit.tgz
+# Use --no-cache here to force update of tiny-cm if changed
 docker-compose build --no-cache
 docker-compose up -d
-# browse to http://localhost:8888
+# Browse to http://localhost:8888
 ```
 
 ## Develper proxy
-A development proxy is configured in poxy.conf.js to refer calls to port 8888.  This allows local angular development / testing of licit-playground using a previosuly created docker CM server
+A development proxy is configured in poxy.conf.js to refer calls to port 8888.  
+This allows local angular development / testing of licit-playground using a 
+previosuly created docker CM server
 
 ```bash
 docker-compose up -d 
 npm start
-# browse to http://127.0.0.1:4200
+# Browse to http://127.0.0.1:4200
 ```

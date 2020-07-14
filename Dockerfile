@@ -5,17 +5,20 @@ RUN apk --update add --no-cache bash git openssh make \
 USER node
 WORKDIR /home/node/
 
-# -- build the tiny-cm server first, since that shouldn't change once built
+# Build the tiny-cm server first, since that shouldn't change once built
 RUN git clone https://github.com/melgish/tiny-cm.git -b master \
  && cd tiny-cm \
  && npm install \
  && npm run build
-# now can use node tiny-cm to start server
+# Now can use `node tiny-cm` to start server CM api.
 
-# -- build playground from local source in docker
+# Build playground from local source in docker
+# Note here taht version has been stripped from tgz to avoid having to update
+# Docker file every time a new release of licit is used.  Instead rename the
+# file during copy to match what is below.  Hint remove -${VERSION} section.
 COPY --chown=node:node . ./playground
 RUN cd playground \
-  && npm install ./licit-0.0.1.tgz \
+  && npm install ./modusoperandi-licit.tgz \
   && npm install \
   && npm run build
 
