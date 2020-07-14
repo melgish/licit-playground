@@ -20,7 +20,7 @@
       <input placeholder="height: (75%|5in|480px|&hellip;)" [(ngModel)]="height" />
     </div>
     <div>
-      <hr>
+      <hr />
       <div>CM CONTENTS</div>
       <input #f2 type="file" (change)="uploadContent($event.target)" accept="image/*" />
       <button class="btn" (click)="getContent()">Reload</button>
@@ -33,7 +33,7 @@
       </li>
     </ul>
     <div>
-      <hr>
+      <hr />
       <button type="button" class="btn" (click)="token()">Keycloak Test</button>
     </div>
   </as-split-area>

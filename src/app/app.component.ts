@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import { cloneDeep } from 'lodash';
 import { saveAs } from 'file-saver';
 
 import HELLO_WORLD from './docs/hello-world.json';
 import FONT_TEST from './docs/font-test.json';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
@@ -23,7 +23,9 @@ export interface Meta {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
+  private readonly subs: Subscription[] = [];
+
   visible = true;
 
   disabled = false;
@@ -51,7 +53,18 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.recall();
+    this.subs.push(
+      this.runtime.fileUploaded.subscribe(data => {
+        console.log('fileUploaded', data);
+        this.getContent();
+      })
+    );
     this.getContent();
+  }
+
+  ngOnDestroy() {
+    this.subs.forEach(sub => sub && sub.unsubscribe());
+    this.subs.length = 0;
   }
 
   /**
@@ -198,7 +211,6 @@ export class AppComponent implements OnInit {
         // Leverage existing method
         await this.runtime.uploadImage(input.files[0]);
       }
-      await this.getContent();
     } catch (err) {
       console.log(err);
     }

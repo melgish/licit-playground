@@ -14,7 +14,7 @@ import { noop } from 'rxjs';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // Licit stuff
-import { Licit } from 'licit';
+import { Licit } from '@modusoperandi/licit';
 import { RuntimeService } from '../runtime.service';
 
 const FILL = '100%';
@@ -180,9 +180,9 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     // Brute force a different runtime until it's available to include
     // as a property
     if (this.licit._runtime !== this.runtime) {
-      console.warn('overwriting runtime');
-      this.licit._editorView.runtime = this.runtime;
-      this.licit._runtime = this.runtime;
+      // console.warn('overwriting runtime');
+      // this.licit._editorView.runtime = this.runtime;
+      // this.licit._runtime = this.runtime;
     }
   }
 

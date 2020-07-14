@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+
 
 export interface ImageLike {
   height: number;
@@ -32,6 +33,11 @@ export interface EditorRuntime {
 })
 export class RuntimeService implements EditorRuntime {
   /**
+   * Hook to update files
+   */
+  @Output() fileUploaded = new EventEmitter<ImageLike>(true);
+
+  /**
    * Instances are constructed by angular.
    *
    * @param http angular http service.
@@ -47,14 +53,18 @@ export class RuntimeService implements EditorRuntime {
   /**
    * Editor calls this to see if image can be uploaded.
    */
-  canUploadImage = () => true;
+  canUploadImage = (...args) => {
+    console.log('canUploadIamge', ...args);
+    return true;
+  }
 
   /**
    * Editor calls this to upload an imate file.
    *
    * @param file File to upload
    */
-  uploadImage = async (file: File): Promise<ImageLike> => {
+  uploadImage = async (file: File, ...args): Promise<ImageLike> => {
+    console.log('uploadFile', file, ...args);
     const formData = new FormData();
     formData.append('file', file, file.name);
 
@@ -73,7 +83,7 @@ export class RuntimeService implements EditorRuntime {
                 width: 0,
               })
             ),
-            tap((data) => console.log('upload response', data))
+            tap((data) => this.fileUploaded.emit(data))
           )
         )
       )
@@ -85,8 +95,8 @@ export class RuntimeService implements EditorRuntime {
    *
    * @param src source path of image.
    */
-  canProxyImageSrc = (src: string): boolean => {
-    console.log('canProxyImageSrc', src);
+  canProxyImageSrc = (src: string, ...args): boolean => {
+    console.log('canProxyImageSrc', src, ...args);
 
     return false;
   }
@@ -96,8 +106,8 @@ export class RuntimeService implements EditorRuntime {
    *
    * @param src source path of image.
    */
-  getProxyImageSrc = (src: string): string => {
-    console.log('getProxyImageSrc', src);
+  getProxyImageSrc = (src: string, ...args): string => {
+    console.log('getProxyImageSrc', src, ...args);
 
     return src;
   }
