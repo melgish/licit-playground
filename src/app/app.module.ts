@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AngularSplitModule } from 'angular-split';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ToggleComponent } from './toggle/toggle.component';
@@ -24,7 +25,8 @@ import { AuthService } from './auth.service';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AngularSplitModule
+    AngularSplitModule,
+    NgbTooltipModule,
   ],
   providers: [
     AuthService,
