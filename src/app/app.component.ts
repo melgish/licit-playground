@@ -30,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   disabled = false;
 
-  embedded = false;
+  embedded = true;
 
   content: any = null;
 
@@ -150,7 +150,11 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   async loadDocument(input: HTMLInputElement) {
     if (input.files.length) {
-      const doc = await this.read(input.files[0]);
+      let doc = await this.read(input.files[0]);
+      // Allow loadDocument to handle a file created from collaborative engine.
+      if (doc.doc_json) {
+        doc = doc.doc_json;
+      }
       input.value = null;
       this.store(doc);
     }

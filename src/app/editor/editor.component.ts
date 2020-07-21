@@ -6,6 +6,8 @@ import {
   forwardRef,
   Input,
   SimpleChanges,
+  NgZone,
+  HostListener,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
@@ -16,6 +18,8 @@ import * as ReactDOM from 'react-dom';
 // Licit stuff
 import { Licit } from '@modusoperandi/licit';
 import { RuntimeService } from '../runtime.service';
+import { EditorView } from 'prosemirror-view';
+import { TextSelection } from 'prosemirror-state';
 
 const FILL = '100%';
 
@@ -56,8 +60,10 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Contains the editor
    */
   private licit: Licit;
+
   /**
    * Sets embedded prperty of the react component.
+   *
    * @param embedded The new value to set.
    */
   @Input() set embedded(embedded: boolean) {
@@ -69,6 +75,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
 
   /**
    * Sets height prperty of the react component.
+   *
    * @param height The new value to set.
    */
   @Input() set height(height: string) {
@@ -80,6 +87,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
 
   /**
    * Sets readOnly prperty of the react component.
+   *
    * @param readOnly The new value to set.
    */
   @Input() set readOnly(readOnly: boolean) {
@@ -90,6 +98,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
 
   /**
    * Sets width prperty of the react component.
+   *
    * @param width The new value to set.
    */
   @Input() set width(width: string) {
@@ -100,12 +109,14 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   }
 
   /**
-   * Instances get constructed by angular
+   * Instances get constructed by angular.
+   *
    * @param el Host element provided by angular
    */
   constructor(
-    el: ElementRef<HTMLElement>,
-    private readonly runtime: RuntimeService
+    private readonly ngZone: NgZone,
+    private readonly runtime: RuntimeService,
+    el: ElementRef<HTMLElement>
   ) {
     this.div = el.nativeElement;
     // ControlValueAccessor
@@ -121,6 +132,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       disabled: false,
       // When collaboration is enabled, identifies server session.
       docID: 0,
+      // Sets editor to embedded mode
+      embedded: true,
       // The height of the editor.
       height: FILL,
       // Called by editor when a change happens.
@@ -142,13 +155,43 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   //#region OnChanges,OnDestroy
   /**
    * Called by angular when any Input() is changed.
+   *
+   * @hidden
+   * @ignore
    */
   ngOnChanges(changes: SimpleChanges): void {
     console.log('ngOnChanges', changes);
     this.render();
   }
+
+  /**
+   * Listens for click events on component
+   * @param target HTML element that was clicked.
+   */
+  @HostListener('click', ['$event.target'])
+  onComponentClick(target: HTMLElement) {
+    const EDITOR = '.czi-prosemirror-editor';
+    const FRAME = '.czi-editor-frame-body';
+
+    // Click is outside editor area but inside the frame.
+    if (!target.closest(EDITOR) && target.closest(FRAME)) {
+      this.ngZone.runOutsideAngular(() => {
+        if (this.licit) {
+          // Return focus to the editor with cursor at end of document.
+          const view = this.licit._editorView as EditorView;
+          const tr = view.state.tr;
+          view.dispatch(tr.setSelection(TextSelection.atEnd(view.state.doc)));
+          view.focus();
+        }
+      });
+    }
+  }
+
   /**
    * Called by angular to clean up component.
+   *
+   * @hidden
+   * @ignore
    */
   ngOnDestroy() {
     console.log('ngOnDestroy');
@@ -177,29 +220,25 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   private onEditorReady(licit: Licit): void {
     console.log('onEditorReady', licit);
     this.licit = licit;
-    // Brute force a different runtime until it's available to include
-    // as a property
-    if (this.licit._runtime !== this.runtime) {
-      // console.warn('overwriting runtime');
-      // this.licit._editorView.runtime = this.runtime;
-      // this.licit._runtime = this.runtime;
-    }
   }
 
   /**
    * Renders the react component.
    */
   private render() {
-    if (!this.licit) {
-      // Create new react element with current properties.
-      const el = React.createElement(Licit, this.props);
-      // Fill content with new component.
-      ReactDOM.render(el, this.div);
-    } else {
-      // Update existing react component with current properties.
-      this.licit.setProps(this.props);
-    }
+    this.ngZone.runOutsideAngular(() => {
+      if (!this.licit) {
+        // Create new react element with current properties.
+        const el = React.createElement(Licit, this.props);
+        // Fill content with new component.
+        ReactDOM.render(el, this.div);
+      } else {
+        // Update existing react component with current properties.
+        this.licit.setProps(this.props);
+      }
+    });
   }
+
   /**
    * Updates one or more component properties.
    *

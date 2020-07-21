@@ -2,11 +2,7 @@
 <as-split unit="pixel" class="main">
   <as-split-area class="aside" size="250">
     <div class="buttons">
-      <app-toggle
-        class="btn"
-        [(ngModel)]="visible"
-        style="min-width: 3rem;"
-        >
+      <app-toggle class="btn" [(ngModel)]="visible" style="min-width: 3rem;">
         {{ visible ? 'Editor' : 'JSON' }}
       </app-toggle>
       <app-toggle class="btn" [(ngModel)]="disabled">Disabled</app-toggle>
@@ -39,27 +35,25 @@
     <div>
       <hr />
       <button type="button" class="btn" (click)="token()">Keycloak Test</button>
-      <button
-        type="button"
-        class="btn"
-        ngbTooltip="Test Tooltip Text"
-        >Tooltip Test</button>
+      <button type="button" class="btn" ngbTooltip="Test Tooltip Text">Tooltip Test</button>
     </div>
   </as-split-area>
   <as-split-area class="article" size="*">
     <div class="title">TITLE</div>
-    <maw-editor
-      #editor
-      *ngIf="visible; else json"
-      class="editor"
-      [ngModel]="content"
-      (ngModelChange)="store($event)"
-      [disabled]="disabled"
-      [width]="width"
-      [height]="height"
-      [readOnly]="readOnly"
-      [embedded]="embedded"
-    ></maw-editor>
+    <div class="row">
+        <maw-editor
+          #editor
+          *ngIf="visible; else json"
+          class="col-12 editor"
+          [ngModel]="content"
+          (ngModelChange)="store($event)"
+          [disabled]="disabled"
+          [width]="width"
+          [height]="height"
+          [readOnly]="readOnly"
+          [embedded]="embedded"
+        ></maw-editor>
+    </div>
     <ng-template #json>
       <pre>{{ content | json }}</pre>
     </ng-template>
