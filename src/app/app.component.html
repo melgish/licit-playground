@@ -13,6 +13,7 @@
       <button type="button" class="btn green" (click)="f1.click()">Load&hellip;</button>
       <button type="button" class="btn green" (click)="hello()">Hello World</button>
       <button type="button" class="btn green" (click)="fonts()">Fonts</button>
+      <app-toggle class="btn" [(ngModel)]="debug">Debug</app-toggle>
     </div>
     <div>
       <input #f1 type="file" accept=".json" (change)="loadDocument($event.target)" />
@@ -52,10 +53,11 @@
           [height]="height"
           [readOnly]="readOnly"
           [embedded]="embedded"
+          [debug]="debug"
         ></maw-editor>
     </div>
     <ng-template #json>
-      <pre>{{ content | json }}</pre>
+      <pre class="col-12">{{ content | json }}</pre>
     </ng-template>
   </as-split-area>
 </as-split>

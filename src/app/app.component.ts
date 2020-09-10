@@ -34,13 +34,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   content: any = null;
 
-  width = '';
+  width = '100%';
 
-  height = '';
+  height = '90vh';
 
   readOnly = false;
 
   docs: {url: string, fileName: string }[] = [];
+  debug = true;
 
   constructor(
     private readonly auth: AuthService,
