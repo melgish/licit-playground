@@ -77,12 +77,16 @@ footer {
   padding: 0.5rem;
   justify-content: start;
   align-content: flex-start;
+  // height here fixes whole page
+  height: calc(100vh - 64px);
 }
 
 .article {
   display: grid;
   background-color: #aaa;
   grid-template-rows: auto 1fr;
+  // height here fixes whole page
+  height: calc(100vh - 64px);
 }
 
 .title {
@@ -102,6 +106,7 @@ pre {
   margin: 0;
   padding: 0.25rem;
   overflow: auto;
-  max-height: 100%;
   background-color: white;
+  // height here fixes whole page
+  height: calc(100vh - 128px);
 }

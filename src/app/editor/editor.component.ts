@@ -62,6 +62,16 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   private licit: Licit;
 
   /**
+   * Setter for use in read-only mode to set content.
+   * For use when FormsModule|ReactiveFormsModule is not needed.
+   */
+  @Input() set doc(doc: any) {
+    this.update({ data: doc || null });
+    // Do not need to call render here because ngOnChanges will be called after
+    // all inputs are updated.
+  }
+
+  /**
    * Sets embedded prperty of the react component.
    *
    * @param embedded The new value to set.
@@ -106,6 +116,13 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     this.update({ width });
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
+  }
+
+  /**
+   * Sets debug property in the editor
+   */
+  @Input() set debug(debug: boolean) {
+    this.update({debug});
   }
 
   /**
@@ -165,6 +182,18 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   }
 
   /**
+   * Called by angular to clean up component.
+   *
+   * @hidden
+   * @ignore
+   */
+  ngOnDestroy() {
+    console.log('ngOnDestroy');
+    // Clean up the react stuff
+    ReactDOM.unmountComponentAtNode(this.div);
+  }
+
+  /**
    * Listens for click events on component
    * @param target HTML element that was clicked.
    */
@@ -187,17 +216,6 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     }
   }
 
-  /**
-   * Called by angular to clean up component.
-   *
-   * @hidden
-   * @ignore
-   */
-  ngOnDestroy() {
-    console.log('ngOnDestroy');
-    // Clean up the react stuff
-    ReactDOM.unmountComponentAtNode(this.div);
-  }
   //#endregion
 
   /**
