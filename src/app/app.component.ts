@@ -41,7 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
   readOnly = false;
 
   docs: {url: string, fileName: string }[] = [];
+
   debug = true;
+
+  fitToContent = false;
 
   constructor(
     private readonly auth: AuthService,

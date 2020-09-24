@@ -61,12 +61,30 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    */
   private licit: Licit;
 
+  // #region Licit Properties
+  /**
+   * Show or hide prosemirror dev tools (flaky operation)
+   */
+  @Input() set debug(debug: boolean) {
+    this.update({debug});
+  }
+
   /**
    * Setter for use in read-only mode to set content.
-   * For use when FormsModule|ReactiveFormsModule is not needed.
+   * For use when FormsModule|ReactiveFormsModule are not needed.
    */
   @Input() set doc(doc: any) {
     this.update({ data: doc || null });
+    // Do not need to call render here because ngOnChanges will be called after
+    // all inputs are updated.
+  }
+
+  /**
+   * Id of the collaborative document
+   * (requires collaboration server)
+   */
+  @Input() set docID(docID: number) {
+    this.update({docID});
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
   }
@@ -79,6 +97,16 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   @Input() set embedded(embedded: boolean) {
     embedded = !!embedded;
     this.update({ embedded });
+    // Do not need to call render here because ngOnChanges will be called after
+    // all inputs are updated.
+  }
+
+  /**
+   * Cause editor to grow/shrink based on its
+   * contents
+   */
+  @Input() set fitToContent(fitToContent: boolean) {
+    this.update({ fitToContent });
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
   }
@@ -119,11 +147,12 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   }
 
   /**
-   * Sets debug property in the editor
+   * Sets plugins to use for current instance
    */
-  @Input() set debug(debug: boolean) {
-    this.update({debug});
+  @Input() set plugins(plugins) {
+    this.update({plugins});
   }
+  //#endregion
 
   /**
    * Instances get constructed by angular.
@@ -161,11 +190,10 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
       onReady: this.onEditorReady.bind(this),
       // Width of the editor
       width: FILL,
-      // Outstanding questions:
-      // What goes here to enable / disable toolbar buttons?
-      // What goes here to add additional plugins?
-      // What goes here to disable existing plugins?
+      // provide runtime for uploading and proxying images
       runtime: this.runtime,
+      // additional plugins for the editor
+      plugins: []
     };
   }
 
@@ -223,11 +251,16 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    *
    * @param data editor data
    */
-  private onEditorChange(data: unknown): void {
-    console.log('onEditorChange', data);
+  private onEditorChange(data: unknown, isEmpty: boolean): void {
+    console.log('onEditorChange', isEmpty, data);
     // save data, then notify angular that value has changed.
     this.props.data = data;
-    this.onChange(data);
+    if (isEmpty) {
+      this.onChange(null);
+    } else {
+      this.onChange(data);
+    }
+
     this.onTouched();
   }
   /**

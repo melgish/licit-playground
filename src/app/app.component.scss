@@ -110,3 +110,8 @@ pre {
   // height here fixes whole page
   height: calc(100vh - 128px);
 }
+
+::ng-deep .czi-editor-frame-body-scroll {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
