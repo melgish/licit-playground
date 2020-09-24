@@ -60,6 +60,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Contains the editor
    */
   private licit: Licit;
+
   // #region Licit Properties
   /**
    * Show or hide prosemirror dev tools (flaky operation)
