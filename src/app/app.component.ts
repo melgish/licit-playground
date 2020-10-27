@@ -11,12 +11,16 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
 import { RuntimeService } from './runtime.service';
+import { ObjectIdPlugin } from '@modusoperandi/licit';
 
-export interface Meta {
-  url: string;
-  mimeType: string;
-  fileName: string;
-}
+export interface Meta { url: string; mimeType: string; fileName: string; }
+
+import * as FUCK_FIRMUSOFT from '@modusoperandi/licit';
+console.log('ns', FUCK_FIRMUSOFT);
+console.log('plugin', FUCK_FIRMUSOFT.ObjectIdPlugin);
+
+const YES = 'yes';
+const NO = 'no';
 
 @Component({
   selector: 'app-root',
@@ -24,13 +28,30 @@ export interface Meta {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private readonly OBJECT_ID_PLUGIN = new ObjectIdPlugin();
+
   private readonly subs: Subscription[] = [];
 
-  visible = true;
+  get visible(): boolean {
+    return sessionStorage.getItem('visible') !== NO;
+  }
+  set visible(value: boolean) {
+    sessionStorage.setItem('visible', value ? YES : NO);
+  }
 
-  disabled = false;
+  get disabled(): boolean {
+    return sessionStorage.getItem('disabled') === YES;
+  }
+  set disabled(value: boolean) {
+    sessionStorage.setItem('disabled', value ? YES : NO);
+  }
 
-  embedded = true;
+  get embedded(): boolean {
+    return sessionStorage.getItem('embedded') !== NO;
+  }
+  set embedded(value: boolean) {
+    sessionStorage.setItem('embedded', value ? YES : NO);
+  }
 
   content: any = null;
 
@@ -38,13 +59,36 @@ export class AppComponent implements OnInit, OnDestroy {
 
   height = '90vh';
 
-  readOnly = false;
+  get readOnly(): boolean {
+    return sessionStorage.getItem('readOnly') === YES;
+  }
+  set readOnly(value: boolean) {
+    sessionStorage.setItem('readOnly', value ? YES : NO);
+  }
 
   docs: {url: string, fileName: string }[] = [];
 
-  debug = true;
+  get debug(): boolean {
+    return sessionStorage.getItem('debug') !== NO;
+  }
+  set debug(value: boolean) {
+    sessionStorage.setItem('debug', value ? YES : NO);
+  }
 
-  fitToContent = false;
+  get objectIdPlugin(): boolean {
+    return sessionStorage.getItem('plugin') !== NO;
+  }
+
+  set objectIdPlugin(value: boolean) {
+    sessionStorage.setItem('plugin', value ? YES : NO);
+    if (value) {
+      this.plugins = [...this.plugins,  this.OBJECT_ID_PLUGIN ];
+    } else {
+      this.plugins = this.plugins.filter(p => p !== this.OBJECT_ID_PLUGIN);
+    }
+  }
+
+  plugins = this.objectIdPlugin ? [ this.OBJECT_ID_PLUGIN ] : [];
 
   constructor(
     private readonly auth: AuthService,
