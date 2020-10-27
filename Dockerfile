@@ -8,7 +8,7 @@ WORKDIR /home/node/
 # Build the tiny-cm server first, since that shouldn't change once built
 RUN git clone https://github.com/melgish/tiny-cm.git -b master \
  && cd tiny-cm \
- && npm install \
+ && npm ci \
  && npm run build
 # Now can use `node tiny-cm` to start server CM api.
 
@@ -18,8 +18,7 @@ RUN git clone https://github.com/melgish/tiny-cm.git -b master \
 # file during copy to match what is below.  Hint remove -${VERSION} section.
 COPY --chown=node:node . ./playground
 RUN cd playground \
-  && npm install ./modusoperandi-licit.tgz \
-  && npm install \
+  && npm ci \
   && npm run build
 
 ENV \
