@@ -21,6 +21,7 @@ import { RuntimeService } from '../runtime.service';
 import { EditorView } from 'prosemirror-view';
 import { TextSelection } from 'prosemirror-state';
 
+
 const FILL = '100%';
 
 @Component({
@@ -97,16 +98,6 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   @Input() set embedded(embedded: boolean) {
     embedded = !!embedded;
     this.update({ embedded });
-    // Do not need to call render here because ngOnChanges will be called after
-    // all inputs are updated.
-  }
-
-  /**
-   * Cause editor to grow/shrink based on its
-   * contents
-   */
-  @Input() set fitToContent(fitToContent: boolean) {
-    this.update({ fitToContent });
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
   }
