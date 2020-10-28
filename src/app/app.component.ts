@@ -15,10 +15,6 @@ import { ObjectIdPlugin } from '@modusoperandi/licit';
 
 export interface Meta { url: string; mimeType: string; fileName: string; }
 
-import * as FUCK_FIRMUSOFT from '@modusoperandi/licit';
-console.log('ns', FUCK_FIRMUSOFT);
-console.log('plugin', FUCK_FIRMUSOFT.ObjectIdPlugin);
-
 const YES = 'yes';
 const NO = 'no';
 
