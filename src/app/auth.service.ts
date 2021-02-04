@@ -4,7 +4,7 @@ import { Observable, defer } from 'rxjs';
 import { mergeMap, shareReplay, map } from 'rxjs/operators';
 import { get } from 'lodash';
 import { stringify } from 'querystring';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 /**
  * Create URL from different components.
