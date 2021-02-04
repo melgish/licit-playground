@@ -4,6 +4,7 @@ import { Observable, defer } from 'rxjs';
 import { mergeMap, shareReplay, map } from 'rxjs/operators';
 import { get } from 'lodash';
 import { stringify } from 'querystring';
+import { Injectable } from "@angular/core";
 
 /**
  * Create URL from different components.
@@ -15,6 +16,7 @@ function slash(root: string, ...args: string[]): string {
   return args.reduce((out, arg) => Location.joinWithSlash(out, arg), root);
 }
 
+@Injectable()
 export class AuthService implements HttpInterceptor {
   /**
    * Gets and caches contentEndpoint from configuration using fetch api
