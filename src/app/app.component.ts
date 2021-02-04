@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
 import { cloneDeep } from 'lodash';
 import { saveAs } from 'file-saver';
 
@@ -11,7 +10,6 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
 import { RuntimeService } from './runtime.service';
-import { ObjectIdPlugin } from '@modusoperandi/licit';
 
 export interface Meta { url: string; mimeType: string; fileName: string; }
 
@@ -24,8 +22,6 @@ const NO = 'no';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private readonly OBJECT_ID_PLUGIN = new ObjectIdPlugin();
-
   private readonly subs: Subscription[] = [];
 
   get visible(): boolean {
@@ -71,20 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('debug', value ? YES : NO);
   }
 
-  get objectIdPlugin(): boolean {
-    return sessionStorage.getItem('plugin') !== NO;
-  }
-
-  set objectIdPlugin(value: boolean) {
-    sessionStorage.setItem('plugin', value ? YES : NO);
-    if (value) {
-      this.plugins = [...this.plugins,  this.OBJECT_ID_PLUGIN ];
-    } else {
-      this.plugins = this.plugins.filter(p => p !== this.OBJECT_ID_PLUGIN);
-    }
-  }
-
-  plugins = this.objectIdPlugin ? [ this.OBJECT_ID_PLUGIN ] : [];
+  plugins = [];
 
   constructor(
     private readonly auth: AuthService,

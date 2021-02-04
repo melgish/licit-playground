@@ -14,7 +14,6 @@
       <button type="button" class="btn green" (click)="hello()">Hello World</button>
       <button type="button" class="btn green" (click)="fonts()">Fonts</button>
       <app-toggle class="btn" [(ngModel)]="debug">Debug</app-toggle>
-      <app-toggle class="btn" [(ngModel)]="objectIdPlugin">Object ID Plugin</app-toggle>
     </div>
     <div>
       <input #f1 type="file" accept=".json" (change)="loadDocument($event.target)" />
