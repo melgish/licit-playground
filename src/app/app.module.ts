@@ -8,11 +8,9 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ToggleComponent } from './toggle/toggle.component';
-import { RuntimeService } from './runtime.service';
-
 // chooses editor to use
 import { EditorComponent } from './editor/editor.component';
-import { AuthService } from './auth.service';
+
 
 @NgModule({
   bootstrap: [AppComponent],
@@ -27,15 +25,6 @@ import { AuthService } from './auth.service';
     HttpClientModule,
     AngularSplitModule,
     NgbTooltipModule,
-  ],
-  providers: [
-    AuthService,
-    RuntimeService,
-    {
-      provide: HTTP_INTERCEPTORS,
-      multi: true,
-      useExisting: AuthService
-    }
   ]
 })
 export class AppModule {}

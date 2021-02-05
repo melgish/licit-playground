@@ -2,8 +2,10 @@ import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { map, mergeMap, tap } from 'rxjs/operators';
-import { AuthService } from './auth.service';
 
+// see proxy.config.js
+const CM_URI = '/cm-service';
+const STYLES_URI = '/style-service';
 
 export interface ImageLike {
   height: number;
@@ -12,13 +14,18 @@ export interface ImageLike {
   width: number;
 }
 
+export interface FileMeta {
+  url: string,
+  entityId: string,
+  encoding: string,
+  mimeType: string,
+  fileName: string
+}
+// Response from tiny-cm POST request
 export interface UploadResponse {
-  link: string;
-  entity: {
-    id: string;
-    type: string[];
-    label: string;
-  };
+  statusCode: 200;
+
+  items: FileMeta[];
 }
 
 export interface EditorRuntime {
@@ -41,13 +48,13 @@ export class RuntimeService implements EditorRuntime {
    * Instances are constructed by angular.
    *
    * @param http angular http service.
-   * @param auth authentication service.
    */
-  constructor(
-    private readonly http: HttpClient,
-    private readonly auth: AuthService,
-  ) {
+  constructor(private readonly http: HttpClient) { }
 
+  buildRoute(...segments: string[]) {
+    return segments.reduce((o, s) => {
+      return Location.joinWithSlash(o, s);
+    });
   }
 
   /**
@@ -68,26 +75,20 @@ export class RuntimeService implements EditorRuntime {
     const formData = new FormData();
     formData.append('file', file, file.name);
 
-    // This code does not reflect reality (yet)
-    // In blade, Authorization headers are added by an angular HTTP_INTERCEPTOR
-    // Until I have time to implement one in this project, this is a cheap
-    // substitution.
-    return this.auth.endpoint$.pipe(
-        mergeMap(url =>
-          this.http.post<UploadResponse>(url, formData).pipe(
-            map(
-              (rs): ImageLike => ({
-                height: 0,
-                id: rs.entity.id,
-                src: Location.joinWithSlash(url, encodeURIComponent(rs.entity.id)),
-                width: 0,
-              })
-            ),
-            tap((data) => this.fileUploaded.emit(data))
-          )
-        )
-      )
-      .toPromise();
+    // post file to service using Angular HTTP.
+    const url = this.buildRoute(CM_URI, 'content');
+    return this.http.post<UploadResponse>(url, formData).pipe(
+      // Extract the first item. There can be only one!
+      map(rs => rs.items[0]),
+      // Convert first item to Licit ImageLike structure
+      map((item): ImageLike => ({
+        height: 0,
+        id: item.entityId,
+        src: this.buildRoute(CM_URI, item.url),
+        width: 0
+      })),
+      tap((image) => this.fileUploaded.emit(image))
+    ).toPromise();
   }
 
   /**
@@ -111,4 +112,20 @@ export class RuntimeService implements EditorRuntime {
 
     return src;
   }
+
+  // NOT used by editor, but used by playground to display cm files in sidebar
+  getFiles(): Promise<FileMeta[]> {
+    const url = this.buildRoute(CM_URI, 'content');
+    return this.http.get<FileMeta[]>(url).toPromise();
+  }
+
+  // NOT used by editor, but used by playground to display cm files in sidebar
+  async deleteFile(entityId: string): Promise<void> {
+    const url = this.buildRoute(CM_URI, 'content', entityId);
+    await this.http.delete(url).toPromise();
+  }
+
+
+  // Style methods required by licit 0.0.18 or later.
+
 }

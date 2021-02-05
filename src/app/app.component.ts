@@ -6,10 +6,9 @@ import HELLO_WORLD from './docs/hello-world.json';
 import FONT_TEST from './docs/font-test.json';
 import { forkJoin, Subscription } from 'rxjs';
 
-import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
-import { RuntimeService } from './runtime.service';
+import { RuntimeService } from './editor/runtime/runtime.service';
 
 export interface Meta { url: string; mimeType: string; fileName: string; }
 
@@ -70,7 +69,6 @@ export class AppComponent implements OnInit, OnDestroy {
   plugins = [];
 
   constructor(
-    private readonly auth: AuthService,
     private readonly http: HttpClient,
     private readonly runtime: RuntimeService
   ) {}
@@ -188,30 +186,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Fetch token and endpoint from server
-   */
-  async token() {
-    try {
-      forkJoin([this.auth.endpoint$, this.auth.token$]).subscribe((value) =>
-        console.log(value)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  /**
    * Fetch list of images from fake content endpoint
    */
   async getContent() {
     try {
-      this.docs = await this.auth.endpoint$
-      .pipe(
-        mergeMap((ep: string) => this.http.get<Meta[]>(ep)),
-        map((docs) =>
-          docs.map(({ url, mimeType, fileName }) => ({ url, mimeType, fileName }))
-        )
-      ).toPromise();
+      this.docs = await this.runtime.getFiles();
     } catch (err) {
       console.log(err);
     }
@@ -222,9 +201,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param param0 Identifies item to delete
    */
 
-  async deleteContent({url}: { url: string }) {
+  async deleteContent({entityId}: { entityId: string }) {
     try {
-      await this.http.delete(url).toPromise();
+      await this.http.delete(entityId).toPromise();
       await this.getContent();
     } catch (err) {
       console.log(err);

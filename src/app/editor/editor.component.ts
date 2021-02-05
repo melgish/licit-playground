@@ -17,7 +17,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 // Licit stuff
 import { Licit } from '@modusoperandi/licit';
-import { RuntimeService } from '../runtime.service';
+import { RuntimeService } from './runtime/runtime.service';
 import { EditorView } from 'prosemirror-view';
 import { TextSelection } from 'prosemirror-state';
 
