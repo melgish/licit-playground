@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Location } from '@angular/common';
 import { cloneDeep } from 'lodash';
 import { saveAs } from 'file-saver';
 
@@ -7,11 +6,9 @@ import HELLO_WORLD from './docs/hello-world.json';
 import FONT_TEST from './docs/font-test.json';
 import { forkJoin, Subscription } from 'rxjs';
 
-import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { mergeMap, map } from 'rxjs/operators';
-import { RuntimeService } from './runtime.service';
-import { ObjectIdPlugin } from '@modusoperandi/licit';
+import { RuntimeService } from './editor/runtime/runtime.service';
 
 export interface Meta { url: string; mimeType: string; fileName: string; }
 
@@ -24,8 +21,6 @@ const NO = 'no';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private readonly OBJECT_ID_PLUGIN = new ObjectIdPlugin();
-
   private readonly subs: Subscription[] = [];
 
   get visible(): boolean {
@@ -71,23 +66,9 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('debug', value ? YES : NO);
   }
 
-  get objectIdPlugin(): boolean {
-    return sessionStorage.getItem('plugin') !== NO;
-  }
-
-  set objectIdPlugin(value: boolean) {
-    sessionStorage.setItem('plugin', value ? YES : NO);
-    if (value) {
-      this.plugins = [...this.plugins,  this.OBJECT_ID_PLUGIN ];
-    } else {
-      this.plugins = this.plugins.filter(p => p !== this.OBJECT_ID_PLUGIN);
-    }
-  }
-
-  plugins = this.objectIdPlugin ? [ this.OBJECT_ID_PLUGIN ] : [];
+  plugins = [];
 
   constructor(
-    private readonly auth: AuthService,
     private readonly http: HttpClient,
     private readonly runtime: RuntimeService
   ) {}
@@ -205,30 +186,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Fetch token and endpoint from server
-   */
-  async token() {
-    try {
-      forkJoin([this.auth.endpoint$, this.auth.token$]).subscribe((value) =>
-        console.log(value)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  /**
    * Fetch list of images from fake content endpoint
    */
   async getContent() {
     try {
-      this.docs = await this.auth.endpoint$
-      .pipe(
-        mergeMap((ep: string) => this.http.get<Meta[]>(ep)),
-        map((docs) =>
-          docs.map(({ url, mimeType, fileName }) => ({ url, mimeType, fileName }))
-        )
-      ).toPromise();
+      this.docs = await this.runtime.getFiles();
     } catch (err) {
       console.log(err);
     }
@@ -239,9 +201,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param param0 Identifies item to delete
    */
 
-  async deleteContent({url}: { url: string }) {
+  async deleteContent({entityId}: { entityId: string }) {
     try {
-      await this.http.delete(url).toPromise();
+      await this.http.delete(entityId).toPromise();
       await this.getContent();
     } catch (err) {
       console.log(err);

@@ -17,7 +17,7 @@ export class ToggleComponent implements ControlValueAccessor {
    * Holds input value.
    */
   @HostBinding('class.on')
-  value: boolean = false;
+  value = false;
   /**
    * Angular supplied change notification method.
    */
@@ -35,14 +35,14 @@ export class ToggleComponent implements ControlValueAccessor {
   }
   /**
    * Called by angular to register change detection callback.
-   * @param fn
+   * @param fn Callback for change detection
    */
   registerOnChange(fn: (value: boolean) => void): void {
     this.onChange = fn;
   }
   /**
    * Called by angular to register touch detection callback.
-   * @param fn
+   * @param fn Callback for touch detection
    */
   registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
