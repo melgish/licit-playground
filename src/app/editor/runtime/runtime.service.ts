@@ -1,44 +1,18 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+
+import { ImageLike, StyleProps, EditorRuntime, StylesRuntime } from './licit-types';
+
+import { FileMeta, PostContentResponse } from './rest-models';
 
 // see proxy.config.js
 const CM_URI = '/cm-service';
 const STYLES_URI = '/style-service';
 
-export interface ImageLike {
-  height: number;
-  id: string;
-  src: string;
-  width: number;
-}
-
-export interface FileMeta {
-  url: string,
-  entityId: string,
-  encoding: string,
-  mimeType: string,
-  fileName: string
-}
-// Response from tiny-cm POST request
-export interface UploadResponse {
-  statusCode: 200;
-
-  items: FileMeta[];
-}
-
-export interface EditorRuntime {
-  canUploadImage?: () => boolean;
-  uploadImage?: (file: File) => Promise<ImageLike>;
-  canProxyImageSrc?: (src: string) => boolean;
-  getProxyImageSrc?: (src: string) => string;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class RuntimeService implements EditorRuntime {
+@Injectable({ providedIn: 'root' })
+export class RuntimeService implements EditorRuntime, StylesRuntime {
   /**
    * Hook to update files
    */
@@ -49,83 +23,179 @@ export class RuntimeService implements EditorRuntime {
    *
    * @param http angular http service.
    */
-  constructor(private readonly http: HttpClient) { }
+  constructor(private readonly http: HttpClient) {}
 
-  buildRoute(...segments: string[]) {
+  /**
+   * Helper method for building URI
+   *
+   * @param segments array of path segments to join.
+   */
+  private buildRoute(...segments: string[]) {
     return segments.reduce((o, s) => {
       return Location.joinWithSlash(o, s);
     });
   }
 
+  // #region EditorRuntime
+
   /**
    * Editor calls this to see if image can be uploaded.
    */
-  canUploadImage = (...args) => {
-    console.log('canUploadIamge', ...args);
+  canUploadImage(): boolean {
     return true;
   }
 
   /**
-   * Editor calls this to upload an imate file.
+   * Editor calls this to upload an image
    *
    * @param file File to upload
    */
-  uploadImage = async (file: File, ...args): Promise<ImageLike> => {
-    console.log('uploadFile', file, ...args);
-    const formData = new FormData();
-    formData.append('file', file, file.name);
-
-    // post file to service using Angular HTTP.
+  uploadImage(file: Blob): Promise<ImageLike> {
+    console.log('uploadFile', file);
     const url = this.buildRoute(CM_URI, 'content');
-    return this.http.post<UploadResponse>(url, formData).pipe(
-      // Extract the first item. There can be only one!
-      map(rs => rs.items[0]),
-      // Convert first item to Licit ImageLike structure
-      map((item): ImageLike => ({
-        height: 0,
-        id: item.entityId,
-        src: this.buildRoute(CM_URI, item.url),
-        width: 0
-      })),
-      tap((image) => this.fileUploaded.emit(image))
-    ).toPromise();
+    const formData = new FormData();
+    formData.append('file', file, (file as File).name);
+
+    // Post file to service using Angular HTTP.
+    return new Promise((resolve, reject) => {
+      this.http
+        .post<PostContentResponse>(url, formData)
+        .pipe(
+          // Extract the first item. There can be only one!
+          map(rs => rs.items[0]),
+          // Convert first item to Licit ImageLike structure
+          map(
+            (item): ImageLike => ({
+              height: 0,
+              id: item.entityId,
+              src: this.buildRoute(CM_URI, item.url),
+              width: 0
+            })
+          ),
+          // Raise event for playground update
+          tap(image => this.fileUploaded.emit(image))
+          // Until it's known how to deal with request errors, they will be
+          // rejected and sent to editor as-is.
+      )
+        .subscribe(resolve, reject);
+    });
+  }
+
+  // #endregion EditorRuntime
+
+  // #region Styles Runtime
+  private styleProps: StyleProps[] = null;
+  // Style methods required by licit 0.0.20 or later.
+
+  private fetchStyles(): Promise<StyleProps[]> {
+    const url = this.buildRoute(STYLES_URI, 'styles');
+    return new Promise((resolve, reject) => {
+      // No post processing required since same array format is saved.
+      //
+      // Until it's known how to deal with request errors, they will be
+      // rejected and sent to editor as-is.
+      this.http.get<StyleProps[]>(url).subscribe(resolve, reject);
+    });
   }
 
   /**
-   * Test if image can be proxied
-   *
-   * @param src source path of image.
+   * Returns styles to editor
    */
-  canProxyImageSrc = (src: string, ...args): boolean => {
-    console.log('canProxyImageSrc', src, ...args);
-
-    return false;
+  async getStylesAsync(): Promise<StyleProps[]> {
+    if (!this.styleProps) {
+      this.styleProps = await this.fetchStyles();
+    }
+    return this.styleProps;
   }
 
   /**
-   * Gets URL of image
+   * Renames an existing style on the service.
    *
-   * @param src source path of image.
+   * @param oldStyleName name of style to rename
+   * @param newStyleName new name to apply to style
    */
-  getProxyImageSrc = (src: string, ...args): string => {
-    console.log('getProxyImageSrc', src, ...args);
+  async renameStyle(oldStyleName: string, newStyleName: string): Promise<StyleProps[]> {
+    const url = this.buildRoute(STYLES_URI, 'styles', 'rename');
+    await new Promise((resolve, reject) => {
+      this.http
+        .patch(url, {
+          oldName: oldStyleName,
+          newName: newStyleName
+        })
+        // No post processing required since result is ignored beyond Angular's
+        // built in testing.
+        //
+        // Until it's known how to deal with request errors, they will be
+        // rejected and sent to editor as-is.
+      .subscribe(resolve, reject);
+    });
 
-    return src;
+    // Refresh from server after rename?
+    // This could probably be done here in memory
+    this.styleProps = await this.fetchStyles();
+    return this.styleProps;
   }
 
-  // NOT used by editor, but used by playground to display cm files in sidebar
+  /**
+   * Remove an existing style from the service
+   * @param styleName Name of style to delete
+   */
+  async removeStyle(styleName: string): Promise<StyleProps[]> {
+    const url = this.buildRoute(STYLES_URI, 'styles', encodeURIComponent(styleName));
+    await new Promise((resolve, reject) => {
+      // No post processing required since result is ignored beyond Angular's
+      // built in testing.
+      //
+      // Until it's known how to deal with request errors, they will be
+      // rejected and sent to editor as-is.
+      this.http.delete(url).subscribe(resolve, reject);
+    });
+
+    // Editor handling of response seems to be incomplete in 0.0.20
+    // Returning styleProps here jut to be consistent with the other
+    // methods.
+    //
+    // Refresh from server after rename?
+    // This could probably be done here in memory.
+    this.styleProps = await this.fetchStyles();
+    return this.styleProps;
+  }
+
+  /**
+   * Save or update a style on the service.
+   *
+   * @param style Style to update.
+   */
+  async saveStyle(style: StyleProps): Promise<StyleProps[]> {
+    const url = this.buildRoute(STYLES_URI, 'styles');
+    await new Promise((resolve, reject) => {
+      this.http.post<StyleProps>(url, style).subscribe(resolve, reject);
+    });
+    // Refresh from server after rename?
+    // This could probably be done here in memory
+    this.styleProps = await this.fetchStyles();
+    return this.styleProps;
+  }
+
+  // #endregion Styles Runtime
+
+  /**
+   * Fetch all file metadata from the service.
+   *
+   * NOTE Not used by editor, Used here in the playground to display sidebar.
+   */
   getFiles(): Promise<FileMeta[]> {
     const url = this.buildRoute(CM_URI, 'content');
     return this.http.get<FileMeta[]>(url).toPromise();
   }
 
-  // NOT used by editor, but used by playground to display cm files in sidebar
+  /**
+   * Delete a cm entry from the server.
+   *
+   * NOTE Not used by editor, Used here in the playground to display sidebar.
+   */
   async deleteFile(entityId: string): Promise<void> {
     const url = this.buildRoute(CM_URI, 'content', entityId);
     await this.http.delete(url).toPromise();
   }
-
-
-  // Style methods required by licit 0.0.18 or later.
-
 }

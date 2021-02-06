@@ -21,7 +21,7 @@
     "@angular/platform-browser": "~11.1.2",
     "@angular/platform-browser-dynamic": "~11.1.2",
     "@angular/router": "~11.1.2",
-    "@modusoperandi/licit": "0.0.18",
+    "@modusoperandi/licit": "0.0.20",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "angular-split": "^5.0.0",
     "bootstrap": "^4.6.0",
