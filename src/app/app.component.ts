@@ -66,7 +66,7 @@ export class AppComponent implements OnInit, OnDestroy {
     sessionStorage.setItem('debug', value ? YES : NO);
   }
 
-  plugins = [];
+  plugins = null;
 
   constructor(
     private readonly http: HttpClient,

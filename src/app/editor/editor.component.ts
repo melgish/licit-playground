@@ -7,7 +7,7 @@ import {
   Input,
   SimpleChanges,
   NgZone,
-  HostListener,
+  HostListener
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs';
@@ -21,7 +21,6 @@ import { RuntimeService } from './runtime/runtime.service';
 import { EditorView } from 'prosemirror-view';
 import { TextSelection } from 'prosemirror-state';
 
-
 const FILL = '100%';
 
 @Component({
@@ -32,9 +31,9 @@ const FILL = '100%';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => EditorComponent),
-      multi: true,
-    },
-  ],
+      multi: true
+    }
+  ]
 })
 export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccessor {
   //#region ControlValueAccessor
@@ -67,7 +66,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Show or hide prosemirror dev tools (flaky operation)
    */
   @Input() set debug(debug: boolean) {
-    this.update({debug});
+    this.update({ debug });
   }
 
   /**
@@ -85,7 +84,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * (requires collaboration server)
    */
   @Input() set docID(docID: number) {
-    this.update({docID});
+    this.update({ docID });
     // Do not need to call render here because ngOnChanges will be called after
     // all inputs are updated.
   }
@@ -115,7 +114,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
   }
 
   /**
-   * Sets readOnly prperty of the react component.
+   * Sets readOnly property of the react component.
    *
    * @param readOnly The new value to set.
    */
@@ -141,9 +140,9 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
    * Sets plugins to use for current instance
    */
   @Input() set plugins(plugins) {
-    this.update({plugins});
+    this.update({ plugins });
   }
-  //#endregion
+  // #endregion
 
   /**
    * Instances get constructed by angular.
@@ -235,7 +234,7 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
     }
   }
 
-  //#endregion
+  // #endregion
 
   /**
    * Hanldes editor onChange callback.
@@ -276,6 +275,8 @@ export class EditorComponent implements OnChanges, OnDestroy, ControlValueAccess
         ReactDOM.render(el, this.div);
       } else {
         // Update existing react component with current properties.
+        // This is effectively calling setState on the editor and will always
+        // result in a rendering cycle.
         this.licit.setProps(this.props);
       }
     });
